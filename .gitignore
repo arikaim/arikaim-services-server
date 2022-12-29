@@ -1,0 +1,16 @@
+vendor/
+arikaim/
+__pycache__
+node_modules
+composer.lock
+composer.json
+cli
+.htaccess
+index.php
+Arikaim_python_service_server.egg-info
+arikaim_service_server.egg-info
+Arikaim_service_server.egg-info
+/build
+/dist
+!*.gitkeep
+index.php
