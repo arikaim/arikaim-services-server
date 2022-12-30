@@ -80,6 +80,10 @@ class ArikaimServer:
         )
 
     @property 
+    def services(self):
+        return self._services
+    
+    @property 
     def version(self):
         return self._version
 
@@ -115,11 +119,8 @@ class ArikaimServer:
             logger.info('Service: ' + service_name + ' load console commands ...')
             console_file = os.path.join(Path.console_path(service_name),'console')
         
-            if os.path.isfile(console_file + '.py') == True:
-                print(console_file)
-                module = load_module('console',console_file + '.py')
-                #commands = getattr(module,'console')
-                print(module.commands)
+            if os.path.isfile(console_file + '.py') == True:               
+                module = load_module('console',console_file + '.py')               
                 di.get('console').add_typer(module.commands, name = service_name)
 
     @classmethod
