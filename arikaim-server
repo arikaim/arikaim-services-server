@@ -8,3 +8,4 @@ globals.ARIKAIM_PATH = os.getcwd()
 
 if __name__ == '__main__':
     arikaim.main()
+    
