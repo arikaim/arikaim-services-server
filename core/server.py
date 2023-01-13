@@ -25,6 +25,8 @@ class ArikaimServer:
         self._config = None
 
     def system_init(self):
+        logger.info('Init')
+
         # load config
         self.load_config()
 
@@ -64,9 +66,10 @@ class ArikaimServer:
         )
 
 
-    def boot_console(self):
-        self.system_init()
-        self.load_console_commands()
+    def boot_console(self, service_name = None):
+        logger.info('Load console commands')
+        #self.system_init()
+        self.load_console_commands(service_name)
 
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
@@ -114,14 +117,24 @@ class ArikaimServer:
 
         return routes   
 
-    def load_console_commands(self):
-        for service_name in self._services:   
-            logger.info('Service: ' + service_name + ' load console commands ...')
-            console_file = os.path.join(Path.console_path(service_name),'console')
+
+    def load_console_commands(self, service_name = None):
+
+        if not service_name:
+            for service_name in self._services:   
+                self.load_service_console_commands(service_name)
+        else:
+            self.load_service_console_commands(service_name)
+
+
+    def load_service_console_commands(self, service_name: str):
+        logger.info('Service: ' + service_name + ' load console commands ...')
+        console_file = os.path.join(Path.console_path(service_name),'console')
         
-            if os.path.isfile(console_file + '.py') == True:               
-                module = load_module('console',console_file + '.py')               
-                di.get('console').add_typer(module.commands, name = service_name)
+        if os.path.isfile(console_file + '.py') == True:               
+            module = load_module('console',console_file + '.py')               
+            return module
+
 
     @classmethod
     def app(clas):

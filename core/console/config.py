@@ -1,13 +1,15 @@
-import typer
+import click
 import os
 from rich import print
 from core.path import Path
 from core.console.templates .config_file import content
 
-config_commands = typer.Typer()
+@click.group()
+def config():
+    pass
 
-@config_commands.command('create')
-def config_create():
+@click.command()
+def create():
     print('')
     print('Create config file')
     print('')
@@ -22,3 +24,5 @@ def config_create():
     with open(file_name,'w') as config_file:  
         config_file.write(content)
           
+
+config.add_command(create)
