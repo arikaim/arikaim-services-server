@@ -23,11 +23,11 @@ def run():
 
 @click.command()
 @click.argument('service-name')
-def cli(service_name: str):
-    # boot server   
-    ArikaimServer.app().boot_console(service_name)
-    print(service_name)
-
+@click.argument('module-name')
+def cli(service_name: str, module_name: str):
+    module = ArikaimServer.app().load_service_console_commands(service_name,module_name)
+    main.add_command(module.commands)
+    module.main()
 
 main.add_command(run)
 main.add_command(cli)

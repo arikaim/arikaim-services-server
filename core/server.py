@@ -69,7 +69,7 @@ class ArikaimServer:
     def boot_console(self, service_name = None):
         logger.info('Load console commands')
         #self.system_init()
-        self.load_console_commands(service_name)
+        return self.load_console_commands(service_name)
 
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
@@ -118,22 +118,26 @@ class ArikaimServer:
         return routes   
 
 
-    def load_console_commands(self, service_name = None):
+    def load_console_commands(self, service_name):
 
         if not service_name:
             for service_name in self._services:   
                 self.load_service_console_commands(service_name)
         else:
-            self.load_service_console_commands(service_name)
+            return self.load_service_console_commands(service_name)
 
 
-    def load_service_console_commands(self, service_name: str):
+    def load_service_console_commands(self, service_name: str, module_name = None):
+        if not module_name:
+            module_name = 'console'
+
         logger.info('Service: ' + service_name + ' load console commands ...')
-        console_file = os.path.join(Path.console_path(service_name),'console')
+        console_file = os.path.join(Path.console_path(service_name),module_name)
         
-        if os.path.isfile(console_file + '.py') == True:               
-            module = load_module('console',console_file + '.py')               
-            return module
+        if os.path.isfile(console_file + '.py') == True: 
+            # append service path  
+            sys.path.append(Path.services(service_name))            
+            return load_module('console',console_file + '.py')                              
 
 
     @classmethod
