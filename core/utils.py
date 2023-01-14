@@ -2,6 +2,13 @@ import sys, os, importlib, imp
 from string import Template
 from datetime import datetime
 
+def call(object, method_name: str, **params):
+    method = getattr(object,method_name,None)
+    if not method:
+        return False
+
+    return method(**params)
+
 def time_now() -> int:
     return datetime.now().timestamp()
 

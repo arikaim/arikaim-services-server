@@ -3,6 +3,8 @@ from rich import print
 from core.server import ArikaimServer
 from core.console.config import config
 from core.console.packages import packages
+from core.utils import call
+from core.logger import logger
 
 
 @click.group()
@@ -25,10 +27,11 @@ def run():
 @click.argument('service-name')
 @click.argument('module-name')
 def cli(service_name: str, module_name: str):
-    module = ArikaimServer.app().load_service_console_commands(service_name,module_name)
-    main.add_command(module.commands)
-    module.main()
-
+    ArikaimServer.app().boot_console()
+    logger.info('Service: ' + service_name + ' load console commands ...')
+    module = ArikaimServer.app().load_console_commands(service_name,module_name)
+    call(module,'main')
+  
 main.add_command(run)
 main.add_command(cli)
 main.add_command(packages)
