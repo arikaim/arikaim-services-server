@@ -12,6 +12,7 @@ from core.db.db import *
 from core.container import di
 from core.errors import error_handlers
 from core.access.access import Access
+from core.queue.queue import Queue
 from core.logger import logger
 
 
@@ -43,6 +44,10 @@ class ArikaimServer:
         # add access
         di.add('access',Access())
 
+        # add queue
+        di.add('queue',Queue())
+        di.get('queue').boot()
+       
         # scan services
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             
@@ -80,6 +85,10 @@ class ArikaimServer:
             port = self._config.settings['port'], 
             log_level = self._config.settings.get('log_level','info')
         )
+       
+    def run_queue_worker(self):
+        # run queue wroker
+        di.get('queue').run()
 
     @property 
     def services(self):
@@ -105,8 +114,8 @@ class ArikaimServer:
 
         for service_name in self._services:            
             logger.info('Boot service: ' + service_name)
-
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
+          
             service = service_class(service_name) 
             service.boot()
 

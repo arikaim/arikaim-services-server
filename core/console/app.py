@@ -16,12 +16,16 @@ def main():
   
 
 @click.command()
-def run():
-    # boot server
-    ArikaimServer.app().boot()
-    # run server
-    ArikaimServer.app().run()
-
+@click.argument('name', required = False)
+def run(name = None):
+    if name == 'queue':
+        # run queue server
+        ArikaimServer.app().system_init()
+        ArikaimServer.app().run_queue_worker()
+    else:  
+        # run server
+        ArikaimServer.app().boot()
+        ArikaimServer.app().run()
 
 @click.command()
 @click.argument('service-name')
