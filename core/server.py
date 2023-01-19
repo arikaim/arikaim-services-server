@@ -46,7 +46,6 @@ class ArikaimServer:
 
         # add queue
         di.add('queue',Queue())
-        di.get('queue').boot()
        
         # scan services
         for file in os.scandir(Path.services()):
@@ -74,6 +73,7 @@ class ArikaimServer:
     def boot_console(self, service_name = None):
         logger.info('Boot console')
         self.system_init()
+        self.get('queue').boot()
 
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
@@ -87,6 +87,10 @@ class ArikaimServer:
         )
        
     def run_queue_worker(self):
+        # add jobs path
+        for service_name in self._services:
+            sys.path.append(Path.job_path(service_name))
+        
         # run queue wroker
         di.get('queue').run()
 

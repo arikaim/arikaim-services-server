@@ -13,7 +13,14 @@ class Path:
             return os.path.join(globals.ARIKAIM_PATH,'db','models')
         else:
             return os.path.join(Path.services(service_name),'models')
-    
+
+    @staticmethod
+    def job_path(service_name):
+        if not service_name:
+            return os.path.join(globals.ARIKAIM_PATH,'queue','jobs')
+        else:
+            return os.path.join(Path.services(service_name),'jobs')
+
     @staticmethod
     def console_path(service_name):
         return os.path.join(Path.services(service_name),'console')
