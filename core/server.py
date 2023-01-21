@@ -72,8 +72,7 @@ class ArikaimServer:
 
     def boot_console(self, service_name = None):
         logger.info('Boot console')
-        self.system_init()
-        self.get('queue').boot()
+        self.system_init()   
 
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
@@ -92,6 +91,7 @@ class ArikaimServer:
             sys.path.append(Path.job_path(service_name))
         
         # run queue wroker
+        di.get('queue').boot()
         di.get('queue').run()
 
     @property 

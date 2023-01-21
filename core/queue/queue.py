@@ -1,4 +1,5 @@
 
+import os, imp, datetime
 from redis import Redis
 from rq import Queue as RqQueue
 from rq_scheduler import Scheduler
@@ -7,8 +8,7 @@ from core.db.db import load_model_class
 from core.logger import logger
 from core.queue.job import Job
 from core.path import Path
-import os, imp
-import datetime
+from core.db.db import load_model_class
 
 
 class Queue:
@@ -17,14 +17,20 @@ class Queue:
         self._redis = Redis()
         self._queue = RqQueue(connection = self._redis)
         self._worker = Worker([self._queue], connection = self._redis, name = 'jobs')
-        self._scheduler = Scheduler( connection = self._redis) 
+        self._scheduler = Scheduler(connection = self._redis) 
 
     def boot(self):
         logger.info('Init qeueue')
         self.remove_jobs()
 
-        jobs = load_model_class('Jobs','jobs')
+        Jobs = load_model_class('Jobs','jobs')
+        jobs = Jobs.get_jobs_due()
+        if not jobs:
+            return
         
+        for job in jobs:
+            pass
+
     def run(self):
         logger.info('Run qeueue worker')
         self._worker.work()

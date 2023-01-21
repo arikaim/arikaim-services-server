@@ -19,6 +19,15 @@ class Jobs(Model):
     config = TextField()
     queue = CharField()
 
+    @staticmethod
+    def get_jobs_due():
+        try:
+            model = Jobs.select().where(Jobs.status == 1).get()
+
+            return model
+        except (Jobs.DoesNotExist):                 
+            return False
+
     class Meta:
         table_name = 'jobs'
         database = di.get('db').peewee

@@ -70,6 +70,7 @@ install_requires=[
     'rq',
     'rq-scheduler',
     'rich',
+    'requests',
     'pydantic',
     'python-multipart',
     'pymitter'   

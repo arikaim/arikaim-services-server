@@ -1,6 +1,10 @@
 import sys, os, importlib, imp
 from string import Template
 from datetime import datetime
+from core.path import Path
+
+def load_service_config(service_name: str):
+    return load_module('config',os.path.join(Path.services(service_name),'config.py'))
 
 def call(object, method_name: str, **params):
     method = getattr(object,method_name,None)
