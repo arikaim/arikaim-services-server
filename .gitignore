@@ -1,5 +1,8 @@
 vendor/
 arikaim/
+!arikaim/core/
+!arikaim/core/*/
+
 __pycache__
 node_modules
 composer.lock

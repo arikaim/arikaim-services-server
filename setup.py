@@ -21,18 +21,19 @@ name='arikaim service server',
 
 # Packages to include in the distribution: 
 packages = [
-    'core',
-    'core.access',
-    'core.access.middleware',
-    'core.access.providers',
-    'core.console',
-    'core.console.templates',
-    'core.db',
-    'core.db.models'
+    'arikaim.core',
+    'arikaim.core.access',
+    'arikaim.core.access.middleware',
+    'arikaim.core.access.providers',
+    'arikaim.core.console',
+    'arikaim.core.console.templates',
+    'arikaim.core.db',
+    'arikaim.core.queue',
+    'arikaim.core.db.models'
 ],
    
 # Project version number:
-version='0.5.0',
+version='0.5.1',
 
 # List a license for the project, eg. MIT License
 license='MIT License',
