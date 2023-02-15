@@ -15,3 +15,5 @@ Arikaim_service_server.egg-info
 !*.gitkeep
 index.php
 _sites.txt
+_notes.txt
+test

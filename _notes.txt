@@ -1,4 +1,0 @@
-
-model save
-
-pip install joblib

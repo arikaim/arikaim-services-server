@@ -26,7 +26,6 @@ packages = [
     'core.access.middleware',
     'core.access.providers',
     'core.console',
-    'core.console.config',
     'core.console.templates',
     'core.db',
     'core.db.models'
