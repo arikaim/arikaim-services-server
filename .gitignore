@@ -1,5 +1,5 @@
 vendor/
-arikaim/
+arikaim/*
 !arikaim/core/
 !arikaim/core/*/
 
