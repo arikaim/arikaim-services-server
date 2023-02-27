@@ -57,7 +57,7 @@ class ArikaimServer:
 
     def boot(self):
         self.system_init()
-        routes = self.load_routes()
+        routes = self.boot_services()
 
         # create app
         self._starlette = Starlette(
@@ -73,7 +73,8 @@ class ArikaimServer:
     def boot_console(self, service_name = None):
         logger.info('Boot console')
         self.system_init()   
-
+        self.boot_services(False,True)
+        
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
 
@@ -113,15 +114,18 @@ class ArikaimServer:
 
         return self._config
 
-    def load_routes(self):
+    def boot_services(self, load_routes: bool = True, init_container: bool = True):
         routes = []
 
         for service_name in self._services:            
             logger.info('Boot service: ' + service_name)
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
-          
             service = service_class(service_name) 
-            service.boot()
+
+            if load_routes == True:
+                service.init_routes()
+            if init_container == True:
+                service.init_container()
 
             # add service routes
             if service.routes != None:

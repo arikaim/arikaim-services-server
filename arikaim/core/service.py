@@ -14,6 +14,12 @@ class Service:
     def boot(self):
         pass
 
+    def init_routes(self):
+        pass
+
+    def init_container(self):
+        pass
+
     def add_route(self, method, path, endpoint):
         self._routes.append(Route(path,endpoint,methods = method))           
 
