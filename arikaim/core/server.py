@@ -138,7 +138,8 @@ class ArikaimServer:
 
         # load console module
         console = self.load_service_console_commands(service_name,'console')
-        call(console,'init')
+        if console != False:
+            call(console,'init')
 
         return self.load_service_console_commands(service_name, module_name)
 
@@ -153,7 +154,8 @@ class ArikaimServer:
             # append service path  
             sys.path.append(Path.services(service_name))            
             return load_module('console',console_file + '.py')                              
-
+        else:
+            return False
 
     @classmethod
     def app(clas):
