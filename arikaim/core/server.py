@@ -6,6 +6,7 @@ from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
 from pymitter import EventEmitter
 
+from arikaim.core.admin.admin import AdminService
 from arikaim.core.path import Path
 from arikaim.core.utils import *
 from arikaim.core.db.db import *
@@ -22,6 +23,7 @@ class ArikaimServer:
     def __init__(self):
         self._version = '0.5.0'
         self._services = []
+        self._services_instance = {}
         self._starlette = None
         self._config = None
 
@@ -46,7 +48,9 @@ class ArikaimServer:
 
         # add queue
         di.add('queue',Queue())
-       
+        # add app
+        di.add('app',self)
+
         # scan services
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             
@@ -59,6 +63,9 @@ class ArikaimServer:
         self.system_init()
         routes = self.boot_services()
 
+        admin_routes = self.load_admin_routes()
+        routes.append(admin_routes)
+
         # create app
         self._starlette = Starlette(
             debug = True, 
@@ -69,6 +76,13 @@ class ArikaimServer:
             exception_handlers = error_handlers
         )
 
+    def load_admin_routes(self):
+        logger.info('Load admin routes')
+
+        admin = AdminService('admin')
+        admin.init_routes()
+
+        return admin.routes
 
     def boot_console(self, service_name = None):
         logger.info('Boot console')
@@ -95,6 +109,12 @@ class ArikaimServer:
         di.get('queue').boot()
         di.get('queue').run()
 
+    def get_service(self, name:str):
+        if name in self._services_instance:
+            return self._services_instance[name]
+        else:
+            return None
+        
     @property 
     def services(self):
         return self._services
@@ -109,9 +129,9 @@ class ArikaimServer:
     
     @property
     def config(self):
-        if (self._confif is None):
+        if (self._config is None):
             self.load_config()
-
+       
         return self._config
 
     def boot_services(self, load_routes: bool = True, init_container: bool = True):
@@ -120,16 +140,16 @@ class ArikaimServer:
         for service_name in self._services:            
             logger.info('Boot service: ' + service_name)
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
-            service = service_class(service_name) 
-
+            self._services_instance[service_name] = service_class(service_name) 
+            
             if load_routes == True:
-                service.init_routes()
+                self._services_instance[service_name].init_routes()
             if init_container == True:
-                service.init_container()
+                self._services_instance[service_name].init_container()
 
             # add service routes
-            if service.routes != None:
-                routes.append(service.routes)
+            if self._services_instance[service_name].routes != None:
+                routes.append(self._services_instance[service_name].routes)
 
         return routes   
 

@@ -26,12 +26,9 @@ class Path:
         return os.path.join(Path.services(service_name),'console')
 
     @staticmethod
-    def storage_path(path = ''):
-        storage_path = os.path.join(globals.ARIKAIM_PATH,'arikaim','storage')
-        if path != "":
-            storage_path = os.path.join(storage_path,path)
-        return storage_path
-
+    def storage_path(path: str = ''):       
+        return os.path.join(globals.ARIKAIM_PATH,'arikaim','storage',path.strip('/'))
+        
     @staticmethod
     def services(name = ''):
         services_path = os.path.join(globals.ARIKAIM_PATH,'arikaim','services')
