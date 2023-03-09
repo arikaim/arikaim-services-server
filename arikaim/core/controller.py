@@ -1,6 +1,8 @@
 from starlette.endpoints import HTTPEndpoint
 from starlette.types import Receive, Scope, Send
-from starlette.responses import JSONResponse
+
+from arikaim.core.api_descriptor import ApiDescriptor
+from arikaim.core.response import ApiResponse
 
 class Controller(HTTPEndpoint):
   
@@ -12,28 +14,20 @@ class Controller(HTTPEndpoint):
         self._errors = []
         self._code = 200 
         self._fields = {}
-    
+        self._descriptor = None
+
         self.boot()
         
     def boot(self):
         pass
 
     def response(self):       
-
-        if (len(self._errors) > 0):
-            self._status = 'error'
-            
-        return JSONResponse({
-            'result': self._fields,
-            'status': self._status,
-            'errors': self._errors,
-            'code'  : self._code
-        })
+        return ApiResponse(self.get_result())
 
     def message(self, value):
-        self.field('message',value)
+        self._fields['message'] = value
 
-    def field(self,key,value):
+    def field(self, key, value):
         self._fields[key] = value
 
     def error(self, error):
@@ -47,7 +41,28 @@ class Controller(HTTPEndpoint):
     def code(self, value):
         self._code = value
 
-   
+    def get_result(self):  
+
+        if (len(self._errors) > 0):
+            self._status = 'error'
+
+        return {
+            'result': self._fields,
+            'status': self._status,
+            'errors': self._errors,
+            'code'  : self._code
+        }
+
+    @property
+    def descriptor(self):
+        if self._descriptor == None:
+            self._descriptor = ApiDescriptor()
+
+        return self._descriptor
+    
+    @classmethod
+    def init_descriptor(cls, descriptor):               
+        pass
 
 # Decorators
 def put(func):
@@ -78,7 +93,7 @@ def get(func):
         path_params = args[0].path_params
         data = {**query_params,**path_params}
 
-        await func(self,args[0],data)
+        await func(self,args[0],data)      
         return self.response()
     return wrap
 
