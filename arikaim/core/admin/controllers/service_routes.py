@@ -14,7 +14,9 @@ class ServiceRoutes(Controller):
             descriptor = get_descriptor(route.endpoint)
 
             routes.append({
-                'path': route.path,     
+                'title': descriptor.title,
+                'description': descriptor.description,
+                'path': service.mount + route.path,     
                 'endpoint': route.name,
                 'methods': list(route.methods),
                 'params': descriptor.params,
@@ -22,6 +24,7 @@ class ServiceRoutes(Controller):
             })
 
         self.field('name',data['name'])
+        self.field('server_url',app.server_url)
         self.field('routes',routes)
         self.message('Service routes')
        

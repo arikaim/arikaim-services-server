@@ -100,6 +100,10 @@ class ArikaimServer:
             log_level = self._config.settings.get('log_level','info')
         )
        
+    @property
+    def server_url(self):
+        return 'http://' + self._config.settings['host'] + ':' + str(self._config.settings['port'])
+    
     def run_queue_worker(self):
         # add jobs path
         for service_name in self._services:

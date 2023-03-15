@@ -5,6 +5,24 @@ class ApiDescriptor:
     def __init__(self):
         self._params = {}
         self._result = {}
+        self._title = ''
+        self._description = ''
+
+    @property
+    def title(self):
+        return self._title
+    
+    @title.setter
+    def title(self, value: str):
+        self._title = value
+
+    @property
+    def description(self):
+        return self._description
+    
+    @description.setter
+    def description(self, value: str):
+        self._description = value
 
     def param(self, name: str):
         self._params[name] = Property(name)

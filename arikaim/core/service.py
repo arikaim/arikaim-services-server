@@ -37,6 +37,13 @@ class Service:
         self._mounth_path = path
 
     @property
+    def mount(self):
+        if self._mounth_path == None:
+            return self._name
+        else:
+            return self._mounth_path
+        
+    @property
     def routes(self):
         if self._mounth_path == None:
             self._mounth_path = self._name
