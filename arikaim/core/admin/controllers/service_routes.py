@@ -16,7 +16,8 @@ class ServiceRoutes(Controller):
             routes.append({
                 'title': descriptor.title,
                 'description': descriptor.description,
-                'path': service.mount + route.path,     
+                'path': route.path,    
+                'full_path': service.mount + route.path,
                 'endpoint': route.name,
                 'methods': list(route.methods),
                 'params': descriptor.params,
