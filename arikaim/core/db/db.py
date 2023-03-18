@@ -17,6 +17,13 @@ class Db:
             host = self._config['host']
         )
 
+    def close(self):
+        if not self._peewee:
+            return False
+        self._peewee.close()
+        
+        return True
+
     def bind(self, models):
         self._peewee.bind(models)
 

@@ -70,6 +70,7 @@ class ArikaimServer:
         self._starlette = Starlette(
             debug = True, 
             routes = routes, 
+            on_shutdown = [self.on_shutdown],
             middleware = [
                 Middleware(CORSMiddleware, allow_origins = ['*'])
             ], 
@@ -92,9 +93,16 @@ class ArikaimServer:
     def load_config(self):
         self._config = load_module('config',os.path.join(Path.config(),'config.py'))
 
+    async def on_shutdown(self):
+        logger.info('Shutdown server')
+
+        di.get('db').close()
+        logger.info('Db connection closed')
+    
     def run(self): 
         uvicorn.run(
             self._starlette, 
+            reload = False,
             host = self._config.settings['host'], 
             port = self._config.settings['port'], 
             log_level = self._config.settings.get('log_level','info')
@@ -159,7 +167,6 @@ class ArikaimServer:
 
 
     def load_console_commands(self, service_name, module_name = None):
-
         # load console module
         console = self.load_service_console_commands(service_name,'console')
         if console != False:

@@ -6,7 +6,6 @@ from arikaim.core.console.packages import packages
 from arikaim.core.utils import call
 from arikaim.core.logger import logger
 
-
 @click.group()
 def main():
     print("")
