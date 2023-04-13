@@ -21,7 +21,7 @@ class ArikaimServer:
     _app = None
 
     def __init__(self):
-        self._version = '0.5.0'
+        self._version = '0.5.2'
         self._services = []
         self._services_instance = {}
         self._starlette = None
