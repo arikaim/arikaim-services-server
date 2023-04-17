@@ -22,6 +22,9 @@ name='arikaim service server',
 # Packages to include in the distribution: 
 packages = [
     'arikaim.core',
+    'arikaim.core.admin',
+    'arikaim.core.admin.controllers',
+    'arikaim.core.collection',
     'arikaim.core.access',
     'arikaim.core.access.middleware',
     'arikaim.core.access.providers',
