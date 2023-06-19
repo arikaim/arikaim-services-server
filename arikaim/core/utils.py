@@ -3,6 +3,10 @@ from string import Template
 from datetime import datetime
 from arikaim.core.path import Path
 
+def inlcude_servie_lib(service_name: str, module_name: str):
+    path = os.path.join(Path.services(service_name),'lib',module_name + '.py')
+    return load_module(module_name,path)
+
 def load_service_config(service_name: str):
     return load_module('config',os.path.join(Path.services(service_name),'config.py'))
 
