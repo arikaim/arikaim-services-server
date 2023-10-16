@@ -15,13 +15,14 @@ from arikaim.core.errors import error_handlers
 from arikaim.core.access.access import Access
 from arikaim.core.queue.queue import Queue
 from arikaim.core.logger import logger
+from arikaim.core.packages import load_package_descriptor
 
 
 class ArikaimServer:
     _app = None
 
     def __init__(self):
-        self._version = '0.5.2'
+        self._version = '0.5.3'
         self._services = []
         self._services_instance = {}
         self._starlette = None
@@ -150,6 +151,14 @@ class ArikaimServer:
         routes = []
 
         for service_name in self._services:            
+            package = load_package_descriptor(service_name)
+            package.setdefault('disabled',False)
+          
+            if package['disabled'] == True:
+                # skip disabled service boot
+                logger.info('service: ' + service_name + ' disabled ')
+                continue
+
             logger.info('Boot service: ' + service_name)
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
             self._services_instance[service_name] = service_class(service_name) 
