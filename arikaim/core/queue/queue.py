@@ -8,8 +8,6 @@ from arikaim.core.db.db import load_model_class
 from arikaim.core.logger import logger
 from arikaim.core.queue.job import Job
 from arikaim.core.path import Path
-from arikaim.core.db.db import load_model_class
-
 
 class Queue:
 
