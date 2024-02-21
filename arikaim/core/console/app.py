@@ -2,6 +2,7 @@ import click
 from rich import print
 from arikaim.core.server import ArikaimServer
 from arikaim.core.console.config import config
+from arikaim.core.console.install import install
 from arikaim.core.console.packages import packages
 from arikaim.core.utils import call
 from arikaim.core.logger import logger
@@ -13,7 +14,7 @@ def main():
     print("[green]version [white]" + ArikaimServer.app().version)
     print("")
   
-
+  
 @click.command()
 @click.argument('name', required = False)
 def run(name = None):
@@ -39,3 +40,4 @@ main.add_command(run)
 main.add_command(cli)
 main.add_command(packages)
 main.add_command(config)
+main.add_command(install)

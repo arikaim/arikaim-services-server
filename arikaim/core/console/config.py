@@ -24,5 +24,4 @@ def create():
     with open(file_name,'w') as config_file:  
         config_file.write(content)
           
-
 config.add_command(create)
