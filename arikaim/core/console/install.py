@@ -2,7 +2,8 @@ import click
 import os
 from rich import print
 from arikaim.core.path import Path
-
+from arikaim.core.container import di
+from arikaim.core.db.db import load_model_class
 
 @click.command()
 def install():
@@ -12,15 +13,22 @@ def install():
     print('Create folders ')
 
     folders = [
-        'arikaim',
-        'arikaim/config',
-        'arikaim/storage',
-        'arikaim/services'
+        'config',
+        'storage',
+        'services'
     ]
 
     for item in folders:
-        if (os.path.exists(item) == False):
-            print(item)
+        path = os.path.join(Path.arikaim(),item)
+
+        if (os.path.exists(path) == False):
+            os.mkdir(path) 
+            print('Create path [green]' + path)
 
     print('[green]Done.')
     print('')
+
+    print('Create db tables ')
+    Users = load_model_class('Users','users')
+
+    di.get('db').peewee.create_table(Users)

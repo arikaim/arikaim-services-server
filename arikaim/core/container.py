@@ -2,7 +2,6 @@ import types
 from inspect import isclass
 from arikaim.core.utils import singleton
 
-
 @singleton
 class Container:
  

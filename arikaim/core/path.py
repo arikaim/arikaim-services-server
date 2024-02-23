@@ -8,6 +8,10 @@ class Path:
         return globals.ARIKAIM_PATH
 
     @staticmethod
+    def arikaim():
+        return os.path.join(globals.ARIKAIM_PATH,'arikaim')
+    
+    @staticmethod
     def model_path(service_name):
         if not service_name:
             return os.path.join(globals.ARIKAIM_PATH,'db','models')

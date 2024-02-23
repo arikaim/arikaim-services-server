@@ -66,7 +66,7 @@ keywords=['arikaim'],
 # List project dependencies: 
 install_requires=[   
     'uvicorn',
-    'starlette',
+    'starlette==0.37.1',
     'pymysql',
     'peewee',
     'click',

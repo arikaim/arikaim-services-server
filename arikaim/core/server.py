@@ -48,7 +48,7 @@ class ArikaimServer:
         di.add('access',Access())
 
         # add queue
-        di.add('queue',Queue())
+       # di.add('queue',Queue())
         # add app
         di.add('app',self)
 

@@ -23,5 +23,8 @@ def create():
     
     with open(file_name,'w') as config_file:  
         config_file.write(content)
-          
+        
+    print('[green]Done.')
+    print('')
+
 config.add_command(create)
