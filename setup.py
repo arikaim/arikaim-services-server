@@ -17,7 +17,7 @@ scripts = [
     'arikaim-server',
 ],
 # Project name: 
-name='arikaim service server',
+name='arikaim-service-server',
 
 # Packages to include in the distribution: 
 packages = [

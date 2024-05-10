@@ -1,5 +1,5 @@
 import click
-from arikaim.core.server import ArikaimServer
+from arikaim.core.app import app
 from arikaim.core.packages import *
 
 @click.group()
@@ -9,7 +9,7 @@ def packages():
 @click.command()
 def install():
     # boot server
-    ArikaimServer.app().boot_console()
-    install_packages(ArikaimServer.app())
+    app.boot_console()
+    install_packages(app)
 
 packages.add_command(install)
