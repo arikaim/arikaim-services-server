@@ -19,11 +19,15 @@ pip install arikaim
 ##### Run
 
 ```sh
-    arikaim-server run
+
+arikaim-server run
+
 ```
 
 ##### Create config file
 
 ```sh
-    arikaim-server config create
+
+arikaim-server config create
+
 ```
