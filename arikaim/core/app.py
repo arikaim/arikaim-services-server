@@ -21,8 +21,7 @@ class ArikaimApp:
         self._starlette = None
         self._config = None
         self._routes = []
-        self.system_init()
-
+       
     def load_service_console_commands(self, service_name: str, module_name = None):
         if not module_name:
             module_name = 'console'
@@ -54,15 +53,22 @@ class ArikaimApp:
         else:
             return None
      
+    def load_config(self):
+        self._config = load_module('config',os.path.join(Path.config(),'config.py'))
+        if self._config is None:
+            logger.error('Config file not found!')
+            return False
+        return self._config
+    
     def system_init(self):
+        logger.info('App init')
+
         # create event emiter 
         events = EventEmitter(wildcard = True)
         di.add('events',events)
 
         # load config
-        self._config = load_module('config',os.path.join(Path.config(),'config.py'))
-        if self._config is None:
-            logger.error('Config file not found!')
+        if self.load_config() == False:
             return False
 
         # connect to db 
@@ -79,7 +85,9 @@ class ArikaimApp:
 
     def boot(self):
         logger.info('Boot')
-  
+
+        self.system_init()
+        
         # scan services
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             

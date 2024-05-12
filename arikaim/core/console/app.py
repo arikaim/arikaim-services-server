@@ -21,17 +21,20 @@ def main(ctx):
 
 @click.command()
 @click.argument('mode', required = False)
-def run(mode = None):
+@click.option('--path', required = False)
+def run(mode = None, path = None):
     # run server
     if mode == 'dev':
         mode = True
  
-    arikaim_server.run(mode)
+    arikaim_server.run(mode,path)
 
 @click.command()
 @click.argument('service-name')
 @click.argument('module-name')
 def cli(service_name: str, module_name: str):
+    app.system_init()
+
     logger.info('Service: ' + service_name + ' load console commands ...')
     module = app.load_console_commands(service_name,module_name)
     call(module,'main')

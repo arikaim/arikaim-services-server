@@ -9,11 +9,19 @@ class ArikaimServer:
     _instance = None
 
     def __init__(self,config):
-        self._version = '0.5.6'
+        self._version = '0.5.8'
         self._config = config
         
-    def run(self, reload = False):
-  
+    def run(self, reload = False, path = None):
+        if path is not None:          
+            Path.base_path = path
+            logger.info('Project path ' + Path.base())
+        
+        self._config = app.load_config()
+        if self._config == False:
+            logger.error('Loading config file')
+            return False
+            
         if reload == True:
             logger.info('Dev mode (reload)')
 

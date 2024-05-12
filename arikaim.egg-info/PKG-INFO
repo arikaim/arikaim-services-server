@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: arikaim
-Version: 0.5.6
+Version: 0.5.8
 Summary: Arikaim services server
 Home-page: https://github.com/arikaim/arikaim-services-server.git
 Download-URL: 
@@ -43,11 +43,15 @@ pip install arikaim
 ##### Run
 
 ```sh
-    arikaim-server run
+
+arikaim-server run
+
 ```
 
 ##### Create config file
 
 ```sh
-    arikaim-server config create
+
+arikaim-server config create
+
 ```

@@ -4,11 +4,13 @@ from arikaim.core.packages import *
 
 @click.group()
 def packages():
+    app.system_init()
     pass
 
 @click.command()
 def install():
-    # boot server
+    app.system_init()
+
     install_packages(app)
 
 packages.add_command(install)

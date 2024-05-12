@@ -4,9 +4,12 @@ from rich import print
 from arikaim.core.path import Path
 from arikaim.core.container import di
 from arikaim.core.db.db import load_model_class
+from arikaim.core.app import app
 
 @click.command()
 def install():
+    app.system_init()
+
     print('')
     print('Install ')
     print('')
