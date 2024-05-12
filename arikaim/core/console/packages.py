@@ -9,7 +9,6 @@ def packages():
 @click.command()
 def install():
     # boot server
-    app.boot_console()
     install_packages(app)
 
 packages.add_command(install)

@@ -8,13 +8,17 @@ from arikaim.core.console.packages import packages
 from arikaim.core.utils import call
 from arikaim.core.logger import logger
 
-@click.group()
-def main():
+@click.group(invoke_without_command = True)
+@click.pass_context
+def main(ctx):
     print("")
     print("[blue]Arikaim Services Server")
     print("[green]version [white]" + arikaim_server.version)
     print("")
-  
+
+    if not ctx.invoked_subcommand:
+        click.echo(ctx.get_help())
+
 @click.command()
 @click.argument('mode', required = False)
 def run(mode = None):
@@ -28,7 +32,6 @@ def run(mode = None):
 @click.argument('service-name')
 @click.argument('module-name')
 def cli(service_name: str, module_name: str):
-    app.boot_console()
     logger.info('Service: ' + service_name + ' load console commands ...')
     module = app.load_console_commands(service_name,module_name)
     call(module,'main')

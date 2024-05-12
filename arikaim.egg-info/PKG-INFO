@@ -1,0 +1,53 @@
+Metadata-Version: 2.1
+Name: arikaim
+Version: 0.5.6
+Summary: Arikaim services server
+Home-page: https://github.com/arikaim/arikaim-services-server.git
+Download-URL: 
+Author: Intersoft Ltd
+Author-email: info@arikaim.com
+License: MIT License
+Keywords: arikaim
+Description-Content-Type: text/markdown
+Requires-Dist: uvicorn
+Requires-Dist: starlette==0.37.1
+Requires-Dist: pymysql
+Requires-Dist: peewee
+Requires-Dist: click
+Requires-Dist: rq
+Requires-Dist: rq-scheduler
+Requires-Dist: rich
+Requires-Dist: requests
+Requires-Dist: pydantic
+Requires-Dist: python-multipart
+Requires-Dist: pymitter
+
+# Arikaim CMS services server
+
+
+
+#### Requirements 
+  * [Arikaim CMS](https://github.com/arikaim/arikaim)
+
+
+#### Installation
+
+```sh
+
+pip install arikaim
+
+```
+
+#### Usage
+
+##### Run
+
+```sh
+    arikaim-server run
+```
+
+##### Create config file
+
+```sh
+    arikaim-server config create
+```

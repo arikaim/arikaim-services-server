@@ -1,4 +1,4 @@
-# Arikaim CMS python services server
+# Arikaim CMS services server
 
 
 
@@ -10,7 +10,7 @@
 
 ```sh
 
-pip install arikaim-service-server
+pip install arikaim
 
 ```
 
@@ -19,15 +19,11 @@ pip install arikaim-service-server
 ##### Run
 
 ```sh
-
-    ./arikaim-server run
-
+    arikaim-server run
 ```
 
-##### Create default config file
+##### Create config file
 
 ```sh
-
-    ./arikaim-server config create
-
+    arikaim-server config create
 ```

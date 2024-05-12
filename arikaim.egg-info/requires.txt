@@ -1,0 +1,12 @@
+uvicorn
+starlette==0.37.1
+pymysql
+peewee
+click
+rq
+rq-scheduler
+rich
+requests
+pydantic
+python-multipart
+pymitter

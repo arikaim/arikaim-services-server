@@ -17,7 +17,7 @@ scripts = [
     'arikaim-server',
 ],
 # Project name: 
-name='arikaim-service-server',
+name = 'arikaim',
 
 # Packages to include in the distribution: 
 packages = [
@@ -36,29 +36,29 @@ packages = [
 ],
    
 # Project version number:
-version='0.5.3',
+version = '0.5.6',
 
 # List a license for the project, eg. MIT License
-license='MIT License',
+license = 'MIT License',
 
 # Short description of your library: 
-description='Arikaim python service server',
+description = 'Arikaim services server',
 
 # Long description of your library: 
-long_description=long_description,
-long_description_content_type='text/markdown',
+long_description = long_description,
+long_description_content_type = 'text/markdown',
 
 # Your name: 
-author='Intersoft Ltd',
+author = 'Intersoft Ltd',
 
 # Your email address:
-author_email='info@arikaim.com',
+author_email = 'info@arikaim.com',
 
 # Link to your github repository or website: 
-url='',
+url = 'https://github.com/arikaim/arikaim-services-server.git',
 
 # Download Link from where the project can be downloaded from:
-download_url='',
+download_url = '',
 
 # List of keywords: 
 keywords=['arikaim'],

@@ -4,7 +4,7 @@ uvicorn_logger = logging.getLogger("uvicorn")
 uvicorn_logger.propagate = False
 
 logging.basicConfig(
-    format = '{levelname:7} {message}', 
+    format = '{levelname}: {message}', 
     style = '{', 
     level = logging.INFO
 )

@@ -1,4 +1,4 @@
-
+import traceback
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 from starlette.middleware.cors import CORSMiddleware
@@ -13,16 +13,15 @@ from arikaim.core.packages import load_package_descriptor
 from arikaim.core.admin.admin import AdminService
 from arikaim.core.access.access import Access
 
-
 class ArikaimApp:
 
-    def __init__(self):
-        self._version = '0.5.3'
+    def __init__(self):        
         self._services = []
         self._services_instance = {}
         self._starlette = None
         self._config = None
         self._routes = []
+        self.system_init()
 
     def load_service_console_commands(self, service_name: str, module_name = None):
         if not module_name:
@@ -45,11 +44,6 @@ class ArikaimApp:
 
         return self.load_service_console_commands(service_name, module_name)
 
-    def boot_console(self, service_name = None):
-        logger.info('Boot console')
-        self.system_init()   
-       
-
     @property 
     def services(self):
         return self._services
@@ -59,16 +53,17 @@ class ArikaimApp:
             return self._services_instance[name]
         else:
             return None
-    
+     
     def system_init(self):
-        logger.info('Init')
-
-        # load config
-        self._config = load_module('config',os.path.join(Path.config(),'config.py'))
-
         # create event emiter 
         events = EventEmitter(wildcard = True)
         di.add('events',events)
+
+        # load config
+        self._config = load_module('config',os.path.join(Path.config(),'config.py'))
+        if self._config is None:
+            logger.error('Config file not found!')
+            return False
 
         # connect to db 
         db = Db(self._config.db)
@@ -76,36 +71,25 @@ class ArikaimApp:
         # add to container
         di.add('db',db)
         
+        #access
+        access = Access()
+        di.add('access',access)
         # add app
         di.add('app',self)
 
     def boot(self):
-        logger.info('Init')
-
-        # load config
-        self._config = load_module('config',os.path.join(Path.config(),'config.py'))
-
-        # create event emiter 
-        events = EventEmitter(wildcard = True)
-        di.add('events',events)
-
-        # connect to db 
-        db = Db(self._config.db)
-        db.connect()
-        # add to container
-        di.add('db',db)
-    
-        # add access
-        di.add('access',Access())
-
+        logger.info('Boot')
+  
         # scan services
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             
                 self._services.append(file.name)
                 # add service path to system paths
                 sys.path.append(Path.services(file.name))
-
+        
+        # load admin routes
         self.load_admin_routes()
+        # load services routes
         self.boot_services()
 
         self._starlette = Starlette(
@@ -117,6 +101,8 @@ class ArikaimApp:
             ], 
             exception_handlers = error_handlers
         )
+
+        return self.starlette
 
     async def on_shutdown(self):
         logger.info('Shutdown server')
@@ -164,8 +150,10 @@ class ArikaimApp:
     @property
     def starlette(self):
         return self._starlette
-    
+
+    @property
+    def config(self):
+        return self._config
+
 
 app = ArikaimApp()
-app.boot()
-app = app.starlette

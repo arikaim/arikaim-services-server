@@ -1,28 +1,30 @@
 import os
-import arikaim.core.globals as globals
-
 
 class Path:
+    base_path = ''
 
     @staticmethod
     def base():
-        return globals.ARIKAIM_PATH
+        if Path.base_path is None:
+            Path.base_path = os.getcwd()
+            
+        return Path.base_path
 
     @staticmethod
     def arikaim():
-        return os.path.join(globals.ARIKAIM_PATH,'arikaim')
+        return os.path.join(Path.base(),'arikaim')
     
     @staticmethod
     def model_path(service_name):
         if not service_name:
-            return os.path.join(globals.ARIKAIM_PATH,'db','models')
+            return os.path.join(Path.base(),'db','models')
         else:
             return os.path.join(Path.services(service_name),'models')
 
     @staticmethod
     def job_path(service_name):
         if not service_name:
-            return os.path.join(globals.ARIKAIM_PATH,'queue','jobs')
+            return os.path.join(Path.base(),'queue','jobs')
         else:
             return os.path.join(Path.services(service_name),'jobs')
 
@@ -32,18 +34,18 @@ class Path:
 
     @staticmethod
     def storage_path(path: str = ''):       
-        return os.path.join(globals.ARIKAIM_PATH,'arikaim','storage',path.strip('/'))
+        return os.path.join(Path.base(),'arikaim','storage',path.strip('/'))
         
     @staticmethod
     def services(name = ''):
-        services_path = os.path.join(globals.ARIKAIM_PATH,'arikaim','services')
+        services_path = os.path.join(Path.base(),'arikaim','services')
         if name != "":
             return os.path.join(services_path,name)
         return services_path
 
     @staticmethod
     def config(file_name = None):
-        path = os.path.join(globals.ARIKAIM_PATH,'arikaim','config')
+        path = os.path.join(Path.base(),'arikaim','config')
         if (file_name != None): 
             path = os.path.join(path,file_name) 
         return path

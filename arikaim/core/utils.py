@@ -35,8 +35,12 @@ def load_module_vars(path, module_name):
     return importlib.import_module(module_name, package = module_name)
    
 def load_module(name, path):
-    return imp.load_source(name,path)
-
+    try:
+        return imp.load_source(name,path)
+    except BaseException as e:
+        print(format(e))       
+        return None
+    
 def parse_text(text, vars):
     template = Template(text)
     return template.substitute(vars)
