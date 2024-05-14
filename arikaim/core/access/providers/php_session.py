@@ -1,12 +1,12 @@
 from os.path import exists
 import subprocess
 import json
-import arikaim.core.globals as globals
 
 from arikaim.core.db.models.users import Users
 from arikaim.core.db.models.access_tokens import AccessTokens
 from arikaim.core.utils import php_unserialize
 from arikaim.core.logger import logger
+from arikaim.core.path import Path 
 
 class PhpSessionAuthProvider:
     
@@ -35,21 +35,28 @@ class PhpSessionAuthProvider:
             return {}
       
         logger.info('Read php session file: ' + file_name)
-
-        file = open(file_name,'r')
-        content = file.read()
-        file.close()
+        try:
+            file = open(file_name,'r')
+            content = file.read()
+            file.close()
+        except IOError:
+            return False
         
         return php_unserialize(content)
     
     def resolve_session_path(self):
-        response = subprocess.Popen(
-            'php cli session:info --output json',
-            shell = True,
-            cwd = globals.ARIKAIM_PATH,
-            stdout = subprocess.PIPE          
-        )
+        try:
+            response = subprocess.Popen(
+                'php cli session:info --output json',
+                shell = True,
+                cwd = Path.base(),
+                stdout = subprocess.PIPE          
+            )
 
-        json_text = response.stdout.read()
-        data = json.loads(json_text)
+            json_text = response.stdout.read()
+            data = json.loads(json_text)
+        except BaseException:
+            self._php_session_path = None
+            return
+        
         self._php_session_path = data['save_path']

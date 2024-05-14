@@ -36,7 +36,7 @@ packages = [
 ],
    
 # Project version number:
-version = '0.5.8',
+version = '0.5.10',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',

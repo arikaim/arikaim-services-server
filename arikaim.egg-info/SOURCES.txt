@@ -24,7 +24,6 @@ arikaim/core/access/middleware/multiple.py
 arikaim/core/access/providers/php_session.py
 arikaim/core/access/providers/token.py
 arikaim/core/admin/admin.py
-arikaim/core/admin/controllers/info.py
 arikaim/core/admin/controllers/service.py
 arikaim/core/admin/controllers/service_route.py
 arikaim/core/admin/controllers/service_routes.py

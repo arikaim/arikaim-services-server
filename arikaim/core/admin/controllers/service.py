@@ -6,10 +6,12 @@ class ServiceDescriptor(Controller):
 
     @get
     async def get(self, request, data):  
-        app = di.get('app').app()
-
-        descriptor = load_package_descriptor(data['name'])
-
+        try:
+            descriptor = load_package_descriptor(data['name'])
+        except BaseException:
+            self.error('Service not found')
+            return
+    
         self.field('name',data['name'])
         self.field('descriptor',descriptor)
     

@@ -5,7 +5,7 @@ from starlette.middleware.authentication import AuthenticationMiddleware
 
 class Service:
     
-    def __init__(self, name, mount_path = None):
+    def __init__(self, name: str, mount_path = None):
         self._routes = []      
         self._middlewares = []     
         self._name = name
@@ -20,8 +20,13 @@ class Service:
     def init_container(self):
         pass
 
-    def add_route(self, method, path, endpoint):
-        self._routes.append(Route(path,endpoint,methods = method))           
+    def add_route(self, method, path, endpoint, name = None):
+        self._routes.append(Route(
+            path,
+            endpoint = endpoint,
+            name = name,
+            methods = method
+        ))           
 
     def add_websocket_route(self, path, endpoint):       
         self._routes.append(WebSocketRoute(path,endpoint = endpoint))
@@ -32,27 +37,23 @@ class Service:
     def add_auth_middleware(self, backend):
         self._middlewares.append(Middleware(AuthenticationMiddleware, backend = backend))  
 
-    @property 
-    def mount_path(self, path):
+    def path(self, path):
         self._mounth_path = path
 
     @property
-    def mount(self):
+    def mount_path(self): 
         if self._mounth_path == None:
-            return self._name
+            return str('/' + self._name)
         else:
-            return self._mounth_path
+            return str('/' + self._mounth_path)
         
     @property
-    def routes(self):
-        if self._mounth_path == None:
-            self._mounth_path = self._name
-            
+    def routes(self):   
         if len(self._routes) == 0:
             return None
         else:
             return Mount(
-                "/" + self._mounth_path, 
+                self.mount_path, 
                 routes = self._routes, 
                 name = self._name, 
                 middleware = self._middlewares

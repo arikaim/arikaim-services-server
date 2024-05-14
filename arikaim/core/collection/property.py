@@ -26,10 +26,12 @@ class Property:
         self._readonly = False
         self._required = False
         self._value = None
-        
+        self._default = None
+
         if type(data) is dict:
             for key in data:
                 setattr(self,key,data[key])
+
 
     def to_json(self):
         return {
@@ -38,11 +40,16 @@ class Property:
             'type': self._type,
             'readonly': self._readonly,
             'value': self._value,
+            'default': self._default,
             'required': self._required,
             'title': self._title
         }
        
-    def value(self, value: str):
+    def default(self, value):
+        self._default = value
+        return self
+    
+    def value(self, value):
         self._value = value
         return self
     
@@ -62,7 +69,7 @@ class Property:
         return self
     
     def type(self, type_name: str):
-        self._type = self.get_type_id(type_name)
+        self._type = type_name
         return self
     
     def get_type_id(self, type_name: str):

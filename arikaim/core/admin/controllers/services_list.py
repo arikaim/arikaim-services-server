@@ -5,7 +5,7 @@ class ServicesList(Controller):
 
     @get
     async def get(self, request, data):  
-        app = di.get('app').app()
+        app = di.get('app')
 
         self.field('services',app.services)
         self.message('Service list')

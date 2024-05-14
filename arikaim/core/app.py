@@ -121,14 +121,14 @@ class ArikaimApp:
     def load_admin_routes(self):
         logger.info('Load admin routes')
 
-        admin = AdminService('admin')
+        admin = AdminService('admin','')
         admin.init_routes()
 
         self._routes.append(admin.routes)
 
     def boot_services(self, load_routes: bool = True, init_container: bool = True):
-      
-        for service_name in self._services:            
+
+        for service_name in self._services: 
             package = load_package_descriptor(service_name)
             package.setdefault('language','nodejs')
             package.setdefault('disabled',False)
