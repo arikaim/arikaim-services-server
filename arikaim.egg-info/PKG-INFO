@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: arikaim
-Version: 0.5.10
+Version: 0.5.11
 Summary: Arikaim services server
 Home-page: https://github.com/arikaim/arikaim-services-server.git
 Download-URL: 
@@ -21,6 +21,7 @@ Requires-Dist: requests
 Requires-Dist: pydantic
 Requires-Dist: python-multipart
 Requires-Dist: pymitter
+Requires-Dist: schema
 
 # Arikaim CMS services server
 

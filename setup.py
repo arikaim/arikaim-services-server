@@ -36,7 +36,7 @@ packages = [
 ],
    
 # Project version number:
-version = '0.5.10',
+version = '0.5.11',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',
@@ -76,7 +76,8 @@ install_requires=[
     'requests',
     'pydantic',
     'python-multipart',
-    'pymitter'   
+    'pymitter',
+    'schema'   
 ],
 
 # https://pypi.org/classifiers/ 

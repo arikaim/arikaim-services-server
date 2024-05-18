@@ -105,7 +105,6 @@ class ArikaimApp:
             routes = self._routes, 
             on_shutdown = [self.on_shutdown],
             middleware = [
-                Middleware(CORSMiddleware, allow_origins = ['*'])
             ], 
             exception_handlers = error_handlers
         )

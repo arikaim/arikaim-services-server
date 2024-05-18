@@ -1,3 +1,5 @@
+import html
+from schema import *
 from starlette.endpoints import HTTPEndpoint
 from starlette.types import Receive, Scope, Send
 
@@ -15,9 +17,23 @@ class Controller(HTTPEndpoint):
         self._code = 200 
         self._fields = {}
         self._descriptor = None
+        self._schema = None
 
         self.boot()
         
+    def schema(self, schema_def):
+        self._schema = Schema(schema_def)
+
+    def validate(self, data):
+        if self._schema == None:
+            return True
+    
+        try:
+            return self._schema.validate(data)
+        except SchemaError as e:
+            self.error(str(e))
+            return False
+
     def boot(self):
         pass
 
@@ -64,45 +80,71 @@ class Controller(HTTPEndpoint):
     def init_descriptor(cls, descriptor):               
         pass
 
+
+async def get_request_data(request):
+    query_params = {}
+    path_params = {}
+    if request.query_params:
+        query_params = request.query_params
+    if request.path_params:
+        path_params = request.path_params
+
+    try:
+        body = await request.json()
+    except: 
+        body = {}
+   
+    data = {**query_params,**path_params,**body}
+
+    # sanitize
+    for key, vlaue in data.items():
+        if type(vlaue) == str:
+            data[key] = html.escape(vlaue)
+    
+    return data
+
+
 # Decorators
 def put(func):
-    async def wrap(self, *args):
-        query_params = args[0].query_params
-        path_params = args[0].path_params
-        body = await args[0].json()
-        data = {**query_params,**path_params, **body}
-
-        await func(self,args[0],data)
+    async def wrap(self, request):
+        data = get_request_data(request)
+        if self.validate(data) == False:
+            return self.response()
+        else:
+            await func(self,request,data)
         return self.response()
+    
     return wrap
 
 def post(func):
-    async def wrap(self, *args):
-        query_params = args[0].query_params
-        path_params = args[0].path_params
-        body = await args[0].json()
-        data = {**query_params,**path_params, **body}
-
-        await func(self,args[0],data)
+    async def wrap(self, request):
+        data = await get_request_data(request)
+        if self.validate(data) == False:
+            return self.response()
+        else:
+            await func(self,request,data)
         return self.response()
+    
     return wrap
 
 def get(func):
-    async def wrap(self, *args):
-        query_params = args[0].query_params
-        path_params = args[0].path_params
-        data = {**query_params,**path_params}
-
-        await func(self,args[0],data)      
+    async def wrap(self, request):
+        data = await get_request_data(request)
+        if self.validate(data) == False:
+            return self.response()
+        else:
+            await func(self,request,data)
         return self.response()
+    
     return wrap
 
 def delete(func):
-    async def wrap(self, *args):
-        query_params = args[0].query_params
-        path_params = args[0].path_params
-        data = {**query_params,**path_params}
-
-        await func(self,args[0],data)
+    async def wrap(self, request):
+        data = await get_request_data(request)
+        if self.validate(data) == False:
+            return self.response()
+        else:
+            await func(self,request,data)
         return self.response()
+    
     return wrap
