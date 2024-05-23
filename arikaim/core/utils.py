@@ -2,6 +2,11 @@ import sys, os, importlib, imp
 from string import Template
 from datetime import datetime
 from arikaim.core.path import Path
+import psutil
+
+def get_process_memory():
+    process = psutil.Process(os.getpid())
+    return (process.memory_info().rss / 1024)
 
 def inlcude_service_lib(service_name: str, module_name: str):
     path = os.path.join(Path.services(service_name),'lib',module_name + '.py')
