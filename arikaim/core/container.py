@@ -1,12 +1,17 @@
 import types
 from inspect import isclass
-from arikaim.core.utils import singleton
 
-@singleton
+
 class Container:
- 
+    _instance = None
+
     def __init__(self):
-        self._services = {} # Services registry
+        self._services = {}
+
+    def __new__(class_, *args, **kwargs):
+        if not isinstance(class_._instance, class_):
+            class_._instance = object.__new__(class_, *args, **kwargs)
+        return class_._instance
 
     def register(self, name: str):
         def wrap(fn):  

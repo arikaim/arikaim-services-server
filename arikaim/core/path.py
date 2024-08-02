@@ -15,25 +15,32 @@ class Path:
         return os.path.join(Path.base(),'arikaim')
     
     @staticmethod
-    def model_path(service_name):
+    def model(service_name):
         if not service_name:
             return os.path.join(Path.base(),'db','models')
         else:
             return os.path.join(Path.services(service_name),'models')
 
     @staticmethod
-    def job_path(service_name):
+    def actions(service_name):
+        if not service_name:
+            return os.path.join(Path.base(),'actions')
+        else:
+            return os.path.join(Path.services(service_name),'actions')
+        
+    @staticmethod
+    def job(service_name):
         if not service_name:
             return os.path.join(Path.base(),'queue','jobs')
         else:
             return os.path.join(Path.services(service_name),'jobs')
 
     @staticmethod
-    def console_path(service_name):
+    def console(service_name):
         return os.path.join(Path.services(service_name),'console')
 
     @staticmethod
-    def storage_path(path: str = ''):       
+    def storage(path: str = ''):       
         return os.path.join(Path.base(),'arikaim','storage',path.strip('/'))
         
     @staticmethod

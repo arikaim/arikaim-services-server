@@ -1,6 +1,5 @@
 from arikaim.core.controller import Controller, get
 from arikaim.core.container import di
-from arikaim.core.api_descriptor import *
 
 class ServiceRoutes(Controller):
 
@@ -20,7 +19,9 @@ class ServiceRoutes(Controller):
     def get_routes(self,service):
         routes = []
         for route in service.routes.routes:
-            descriptor = get_descriptor(route.endpoint)
+
+            print(route.endpoint)
+            descriptor = route.endpoint.descriptor()
             routes.append({
                 'title': descriptor.title,
                 'description': descriptor.description,               

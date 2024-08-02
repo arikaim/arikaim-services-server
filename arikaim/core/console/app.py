@@ -1,5 +1,7 @@
 import click
 from rich import print
+from rich import pretty
+
 from arikaim.core.server import arikaim_server
 from arikaim.core.app import app
 from arikaim.core.console.config import config
@@ -11,6 +13,8 @@ from arikaim.core.logger import logger
 @click.group(invoke_without_command = True)
 @click.pass_context
 def main(ctx):
+    pretty.install()
+
     print("")
     print("[blue]Arikaim Services Server")
     print("[green]version [white]" + arikaim_server.version)

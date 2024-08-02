@@ -1,8 +1,7 @@
-import traceback
+import gc
+
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
-from starlette.middleware.cors import CORSMiddleware
-from pymitter import EventEmitter
 
 from arikaim.core.utils import *
 from arikaim.core.db.db import *
@@ -12,6 +11,8 @@ from arikaim.core.container import di
 from arikaim.core.packages import load_package_descriptor
 from arikaim.core.admin.admin import AdminService
 from arikaim.core.access.access import Access
+from arikaim.core.middleware.sanitize import SanitizeMiddleware
+from arikaim.core.middleware.system import SystemMiddleware
 
 class ArikaimApp:
 
@@ -26,7 +27,7 @@ class ArikaimApp:
         if not module_name:
             module_name = 'console'
 
-        console_file = os.path.join(Path.console_path(service_name),module_name)
+        console_file = os.path.join(Path.console(service_name),module_name)
         
         if os.path.isfile(console_file + '.py') == True: 
             # append service path  
@@ -62,10 +63,9 @@ class ArikaimApp:
     
     def system_init(self):
         logger.info('App init')
-
-        # create event emiter 
-        events = EventEmitter(wildcard = True)
-        di.add('events',events)
+        
+        # enable GC
+        gc.enable()
 
         # load config
         if self.load_config() == False:
@@ -105,6 +105,7 @@ class ArikaimApp:
             routes = self._routes, 
             on_shutdown = [self.on_shutdown],
             middleware = [
+                Middleware(SystemMiddleware)
             ], 
             exception_handlers = error_handlers
         )

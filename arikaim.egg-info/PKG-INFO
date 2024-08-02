@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: arikaim
-Version: 0.5.11
+Version: 0.5.14
 Summary: Arikaim services server
 Home-page: https://github.com/arikaim/arikaim-services-server.git
 Download-URL: 
@@ -10,17 +10,15 @@ License: MIT License
 Keywords: arikaim
 Description-Content-Type: text/markdown
 Requires-Dist: uvicorn
-Requires-Dist: starlette==0.37.1
+Requires-Dist: starlette==0.37.2
 Requires-Dist: pymysql
 Requires-Dist: peewee
 Requires-Dist: click
-Requires-Dist: rq
-Requires-Dist: rq-scheduler
+Requires-Dist: bleach
 Requires-Dist: rich
+Requires-Dist: psutil
 Requires-Dist: requests
 Requires-Dist: pydantic
-Requires-Dist: python-multipart
-Requires-Dist: pymitter
 Requires-Dist: schema
 
 # Arikaim CMS services server

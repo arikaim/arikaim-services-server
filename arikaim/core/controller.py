@@ -3,7 +3,7 @@ from schema import *
 from starlette.endpoints import HTTPEndpoint
 from starlette.types import Receive, Scope, Send
 
-from arikaim.core.api_descriptor import ApiDescriptor
+from arikaim.core.collection.descriptor import PropertiesDescriptor
 from arikaim.core.response import ApiResponse
 
 class Controller(HTTPEndpoint):
@@ -69,12 +69,12 @@ class Controller(HTTPEndpoint):
             'code'  : self._code
         }
 
-    @property
-    def descriptor(self):
-        if self._descriptor == None:
-            self._descriptor = ApiDescriptor()
-
-        return self._descriptor
+    @classmethod
+    def descriptor(cls):
+        descriptor = PropertiesDescriptor()
+        cls.init_descriptor(descriptor)
+   
+        return descriptor
     
     @classmethod
     def init_descriptor(cls, descriptor):               

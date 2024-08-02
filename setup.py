@@ -32,11 +32,12 @@ packages = [
     'arikaim.core.console.templates',
     'arikaim.core.db',
     'arikaim.core.queue',
+    'arikaim.core.middleware',
     'arikaim.core.db.models'
 ],
    
 # Project version number:
-version = '0.5.11',
+version = '0.5.14',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',
@@ -66,17 +67,15 @@ keywords=['arikaim'],
 # List project dependencies: 
 install_requires=[   
     'uvicorn',
-    'starlette==0.37.1',
+    'starlette==0.37.2',
     'pymysql',
     'peewee',
     'click',
-    'rq',
-    'rq-scheduler',
+    'bleach',
     'rich',
+    'psutil',
     'requests',
-    'pydantic',
-    'python-multipart',
-    'pymitter',
+    'pydantic',            
     'schema'   
 ],
 

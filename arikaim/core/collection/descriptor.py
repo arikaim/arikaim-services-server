@@ -1,9 +1,9 @@
 from arikaim.core.collection.property import Property
 
-class ApiDescriptor:
+class PropertiesDescriptor:
 
     def __init__(self):
-        self._params = {}
+        self._properties = {}
         self._result = {}
         self._title = ''
         self._description = ''
@@ -24,26 +24,26 @@ class ApiDescriptor:
     def description(self, value: str):
         self._description = value
 
-    def param(self, name: str):
-        self._params[name] = Property(name)
-        return self._params[name]
-    
     def result(self, name: str):
         self._result[name] = Property(name)
         return self._result[name]
     
     @property
-    def params(self):
-        return self._params
-
-    @property
     def result_fields(self):
         return self._result
 
+    def prop(self, name: str):
+        self._properties[name] = Property(name)
+        return self._properties[name]
+    
+    @property
+    def props(self):
+        return self._properties
 
-
-def get_descriptor(cls):
-    descriptor = ApiDescriptor()
-    cls.init_descriptor(descriptor)
-   
-    return descriptor
+    def param(self, name: str):
+        self._properties[name] = Property(name)
+        return self._properties[name]
+    
+    @property
+    def params(self):
+        return self._properties

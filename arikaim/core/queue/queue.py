@@ -58,7 +58,7 @@ class Queue:
         return self._queue.jobs
 
     def create_job(self, job_class_name: str, module_name: str, service_name: str):
-        path = os.path.join(Path.job_path(service_name),module_name)      
+        path = os.path.join(Path.job(service_name),module_name)      
         module = imp.load_source(module_name,path + '.py')
 
         job_class = getattr(module,job_class_name)

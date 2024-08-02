@@ -1,6 +1,5 @@
 from arikaim.core.controller import Controller, get
 from arikaim.core.container import di
-from arikaim.core.api_descriptor import *
 
 class ServiceRoute(Controller):
 
@@ -14,7 +13,7 @@ class ServiceRoute(Controller):
         for route in service.routes.routes:
             service_path = service.mount_path + route.path
             if service_path.lstrip('/') == path:
-                descriptor = get_descriptor(route.endpoint)
+                descriptor = route.endpoint.descriptor()
                 result = {
                     'title': descriptor.title,
                     'description': descriptor.description,

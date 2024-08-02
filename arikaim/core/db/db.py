@@ -34,7 +34,7 @@ def load_model_class(model_class, module_name, service_name = None):
     if not service_name:        
         module = importlib.import_module('arikaim.core.db.models.' + module_name,model_class)
     else:
-        path = os.path.join(Path.model_path(service_name),module_name)      
+        path = os.path.join(Path.model(service_name),module_name)      
         module = imp.load_source(module_name,path + '.py')
 
     return getattr(module,model_class)

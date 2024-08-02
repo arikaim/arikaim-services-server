@@ -9,7 +9,7 @@ class ArikaimServer:
     _instance = None
 
     def __init__(self,config):
-        self._version = '0.5.11'
+        self._version = '0.5.14'
         self._config = config
         
     def run(self, reload = False, path = None):
@@ -29,11 +29,12 @@ class ArikaimServer:
             'arikaim.core.app:app.boot', 
             reload = reload,
             factory = True,
+            workers = 1,           
             host = self._config.settings['host'], 
             port = self._config.settings['port'], 
             log_level = self._config.settings.get('log_level','info')
         )
-       
+   
     @property
     def server_url(self):
         return self._config.settings['host'] + ':' + str(self._config.settings['port'])

@@ -4,6 +4,9 @@ from datetime import datetime
 from arikaim.core.path import Path
 import psutil
 
+def load_action(service_name: str, module_name: str):
+    pass
+
 def get_process_memory():
     process = psutil.Process(os.getpid())
     return (process.memory_info().rss / 1024)
@@ -49,22 +52,6 @@ def load_module(name, path):
 def parse_text(text, vars):
     template = Template(text)
     return template.substitute(vars)
-
-def singleton(class_):
-    class class_w(class_):
-        _instance = None
-        def __new__(class2, *args, **kwargs):
-            if class_w._instance is None:
-                class_w._instance = super(class_w, class2).__new__(class2, *args, **kwargs)
-                class_w._instance._sealed = False
-            return class_w._instance
-        def __init__(self, *args, **kwargs):
-            if self._sealed:
-                return
-            super(class_w, self).__init__(*args, **kwargs)
-            self._sealed = True
-    class_w.__name__ = class_.__name__
-    return class_w
 
 def php_unserialize(text, delimiter = ';', var_delimiter = '|', value_delimiter = ':'):
     vars = {}
