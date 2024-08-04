@@ -34,14 +34,23 @@ def run(mode = None, path = None):
     arikaim_server.run(mode,path)
 
 @click.command()
-@click.argument('service-name')
-@click.argument('module-name')
-def cli(service_name: str, module_name: str):
+@click.pass_context
+@click.argument('service-name', required = False)
+@click.argument('module-name', required = False)
+def cli(ctx, service_name: str, module_name: str):
     app.system_init()
 
-    logger.info('Service: ' + service_name + ' load console commands ...')
-    module = app.load_console_commands(service_name,module_name)
-    call(module,'main')
+    if not service_name:
+        app.scan_services()
+        for service in app.services:
+            logger.info('Service: ' + service + ' load console commands ...')
+            app.load_console_commands(service)
+        
+        click.echo(ctx.get_help())
+    else:
+        logger.info('Service: ' + service_name + ' load console commands ...')
+        module = app.load_console_commands(service_name,module_name)
+        call(module,'main')
   
 main.add_command(run)
 main.add_command(cli)

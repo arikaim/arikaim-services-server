@@ -19,8 +19,6 @@ class ServiceRoutes(Controller):
     def get_routes(self,service):
         routes = []
         for route in service.routes.routes:
-
-            print(route.endpoint)
             descriptor = route.endpoint.descriptor()
             routes.append({
                 'title': descriptor.title,

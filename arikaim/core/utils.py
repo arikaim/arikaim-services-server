@@ -30,7 +30,6 @@ def time_now() -> int:
 
 def load_class(path, module_name, class_name):
     module_path = os.path.join(path)
-
     sys.path.append(module_path)
     module = importlib.import_module(module_name) 
    

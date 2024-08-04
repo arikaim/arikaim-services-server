@@ -1,5 +1,6 @@
 from arikaim.core.utils import *
 from arikaim.core.db.db import load_model_class
+from arikaim.core.access.middleware import AuthMiddleware
 from arikaim.core.access.auth_error import AuthError
 
 class Access:
@@ -7,12 +8,11 @@ class Access:
     DEFAULT_AUTH_PROVIDER = 'token'
 
     def __init__(self):
-        self._auth_middleware_classes = {
-            'multiple': 'MultipleAuthMiddleware'
-        }
         self._auth_provider_classes = {
             'token': 'TokenAuthProvider',
-            'php_session': 'PhpSessionAuthProvider'
+            'php_session': 'PhpSessionAuthProvider',
+            'redis_session': 'SessionRedisAuthProvider',
+            'public': 'PublicAuthProvider'
         }
 
     def authenticate(self, credentails, auth_name = None):
@@ -23,15 +23,8 @@ class Access:
                 
         return provider.authenticate(credentails)
 
-
-    def middleware(self, auth_name, auth_providers):
-        if auth_name in self._auth_middleware_classes:
-            middleware_class = Access.load_moddleware_class(auth_name,self._auth_middleware_classes[auth_name])
-            return middleware_class(auth_providers)
-    
-        else:
-            return None
-
+    def middleware(self, auth_providers):
+        return AuthMiddleware(auth_providers)
 
     def provider(self, auth_name):
         if auth_name in self._auth_provider_classes:

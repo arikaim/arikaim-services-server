@@ -2,7 +2,7 @@ from starlette.authentication import AuthenticationBackend, AuthCredentials
 from arikaim.core.access.auth_error import AuthError
 from arikaim.core.container import di
 
-class MultipleAuthMiddleware(AuthenticationBackend):
+class AuthMiddleware(AuthenticationBackend):
     
     def __init__(self, auth_providers = []):
         self._providers = auth_providers

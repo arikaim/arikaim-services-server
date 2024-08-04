@@ -71,30 +71,27 @@ class ArikaimApp:
         if self.load_config() == False:
             return False
 
-        # connect to db 
-        db = Db(self._config.db)
-        db.connect()
-        # add to container
-        di.add('db',db)
-        
+        # connect to db        
+        db.connect(self._config.db)
+       
         #access
         access = Access()
         di.add('access',access)
-        # add app
-        di.add('app',self)
-
-    def boot(self):
-        logger.info('Boot')
-
-        self.system_init()
-        
-        # scan services
+     
+    def scan_services(self):
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             
                 self._services.append(file.name)
                 # add service path to system paths
                 sys.path.append(Path.services(file.name))
-        
+
+    def boot(self):
+        logger.info('Boot')
+
+        self.system_init()
+        # scan services
+        self.scan_services()
+      
         # load admin routes
         self.load_admin_routes()
         # load services routes
@@ -115,7 +112,7 @@ class ArikaimApp:
     async def on_shutdown(self):
         logger.info('Shutdown server')
 
-        di.get('db').close()
+        db.close()
         logger.info('Db connection closed')
 
     def load_admin_routes(self):
@@ -145,12 +142,12 @@ class ArikaimApp:
             logger.info('Boot service: ' + service_name)
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
             self._services_instance[service_name] = service_class(service_name) 
-            
+          
             if load_routes == True:
                 self._services_instance[service_name].init_routes()
             if init_container == True:
                 self._services_instance[service_name].init_container()
-
+        
             # add service routes
             if self._services_instance[service_name].routes != None:
                 self._routes.append(self._services_instance[service_name].routes)

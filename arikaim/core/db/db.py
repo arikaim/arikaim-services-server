@@ -3,11 +3,20 @@ from arikaim.core.path import Path
 import imp,os,importlib;
 
 class Db: 
-    def __init__(self, config):
-        self._config = config
+    _instance = None
+
+    def __init__(self, ):
+        self._config = None
         self._peewee = None
 
-    def connect(self):     
+    def __new__(cls, *args, **kwargs):
+        if not isinstance(cls._instance, cls):
+            cls._instance = object.__new__(cls, *args, **kwargs)
+        return cls._instance
+    
+    def connect(self, config):     
+        self._config = config
+
         self._peewee = MySQLDatabase(
             self._config['database'],
             user = self._config['username'],
@@ -29,6 +38,8 @@ class Db:
     def peewee(self):
         return self._peewee
 
+
+db = Db()
 
 def load_model_class(model_class, module_name, service_name = None):
     if not service_name:        
