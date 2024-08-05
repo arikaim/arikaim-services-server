@@ -1,5 +1,5 @@
 from peewee import *
-from arikaim.core.container import di
+from arikaim.core.db.db import db
 
 class AccessTokens(Model):
     id = BigAutoField(unique = True, primary_key = True)
@@ -13,5 +13,5 @@ class AccessTokens(Model):
 
     class Meta:
         table_name = 'access_tokens'
-        database = di.get('db').peewee
+        database = db.peewee
     

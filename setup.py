@@ -26,7 +26,7 @@ packages = [
     'arikaim.core.admin.controllers',
     'arikaim.core.collection',
     'arikaim.core.access',
-    'arikaim.core.access.middleware',
+    'arikaim.core.access',
     'arikaim.core.access.providers',
     'arikaim.core.console',
     'arikaim.core.console.templates',
@@ -76,7 +76,8 @@ install_requires=[
     'psutil',
     'requests',
     'pydantic',            
-    'schema'   
+    'schema',
+    'redis'   
 ],
 
 # https://pypi.org/classifiers/ 

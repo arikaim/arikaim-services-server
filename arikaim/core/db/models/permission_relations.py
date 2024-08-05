@@ -1,5 +1,5 @@
 from peewee import *
-from arikaim.core.container import di
+from arikaim.core.db.db import db
 
 class PermissionRelations(Model):
     id = BigAutoField(unique = True, primary_key = True)
@@ -14,4 +14,4 @@ class PermissionRelations(Model):
 
     class Meta:
         table_name = 'permission_relations'
-        database = di.get('db').peewee
+        database = db.peewee

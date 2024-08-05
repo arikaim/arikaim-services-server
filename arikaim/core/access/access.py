@@ -1,19 +1,23 @@
 from arikaim.core.utils import *
 from arikaim.core.db.db import load_model_class
-from arikaim.core.access.middleware import AuthMiddleware
 from arikaim.core.access.auth_error import AuthError
 
 class Access:
-    
+    _instance = None
     DEFAULT_AUTH_PROVIDER = 'token'
 
     def __init__(self):
         self._auth_provider_classes = {
             'token': 'TokenAuthProvider',
             'php_session': 'PhpSessionAuthProvider',
-            'redis_session': 'SessionRedisAuthProvider',
+            'php_redis_session': 'RedisPHPSessionAuthProvider',
             'public': 'PublicAuthProvider'
         }
+
+    def __new__(cls, *args, **kwargs):
+        if not isinstance(cls._instance, cls):
+            cls._instance = object.__new__(cls, *args, **kwargs)
+        return cls._instance
 
     def authenticate(self, credentails, auth_name = None):
         if auth_name == None:
@@ -23,9 +27,6 @@ class Access:
                 
         return provider.authenticate(credentails)
 
-    def middleware(self, auth_providers):
-        return AuthMiddleware(auth_providers)
-
     def provider(self, auth_name):
         if auth_name in self._auth_provider_classes:
             provider_class = Access.load_provider_class(auth_name,self._auth_provider_classes[auth_name])
@@ -33,7 +34,6 @@ class Access:
 
         else:
             return None
-
 
     def has_permission(self, name, user_id):
         Permissions = load_model_class('Permissions','permissions')
@@ -68,3 +68,6 @@ class Access:
     def load_provider_class(module_name, class_name):
         module = importlib.import_module('arikaim.core.access.providers.' + module_name,class_name)
         return getattr(module,class_name)
+    
+
+access = Access()

@@ -1,6 +1,6 @@
 from starlette.authentication import AuthenticationBackend, AuthCredentials
 from arikaim.core.access.auth_error import AuthError
-from arikaim.core.container import di
+from arikaim.core.access.access import access
 
 class AuthMiddleware(AuthenticationBackend):
     
@@ -13,7 +13,7 @@ class AuthMiddleware(AuthenticationBackend):
 
     async def authenticate(self, conn):      
         for provider in self._providers:
-            user = di.get('access').authenticate(conn,provider)
+            user = access.authenticate(conn,provider)
             if user != False:
                 return AuthCredentials(["authenticated"]), user
 

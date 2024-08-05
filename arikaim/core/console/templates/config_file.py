@@ -21,4 +21,7 @@ db = {
 # global middlewares
 middleware = {
 }
+
+# redis connection 
+reid = None
 """

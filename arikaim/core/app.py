@@ -3,6 +3,7 @@ import gc
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
 
+from arikaim.core.redis import redis_connect
 from arikaim.core.utils import *
 from arikaim.core.db.db import *
 from arikaim.core.errors import error_handlers
@@ -10,9 +11,10 @@ from arikaim.core.logger import logger
 from arikaim.core.container import di
 from arikaim.core.packages import load_package_descriptor
 from arikaim.core.admin.admin import AdminService
-from arikaim.core.access.access import Access
+
 from arikaim.core.middleware.sanitize import SanitizeMiddleware
 from arikaim.core.middleware.system import SystemMiddleware
+from starlette.middleware.cors import CORSMiddleware
 
 class ArikaimApp:
 
@@ -71,13 +73,12 @@ class ArikaimApp:
         if self.load_config() == False:
             return False
 
+        # connect ro teds
+        redis_connect(self._config.redis)
+
         # connect to db        
         db.connect(self._config.db)
        
-        #access
-        access = Access()
-        di.add('access',access)
-     
     def scan_services(self):
         for file in os.scandir(Path.services()):
             if file.is_dir() and not file.name.startswith('.'):             
@@ -102,6 +103,11 @@ class ArikaimApp:
             routes = self._routes, 
             on_shutdown = [self.on_shutdown],
             middleware = [
+                Middleware(CORSMiddleware, 
+                    allow_origins=['*'],
+                    allow_credentials=True,
+                    allow_methods=["*"],
+                    allow_headers=["*"]),
                 Middleware(SystemMiddleware)
             ], 
             exception_handlers = error_handlers

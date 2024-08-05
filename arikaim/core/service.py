@@ -2,6 +2,7 @@ from arikaim.core.utils import *
 from starlette.routing import Route, Mount, WebSocketRoute
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
+from arikaim.core.access.middleware import AuthMiddleware
 
 class Service:
     
@@ -34,7 +35,8 @@ class Service:
     def add_middleware(self, middleware_class):
         self._middlewares.append(Middleware(middleware_class))     
 
-    def add_auth_middleware(self, backend):
+    def add_auth_middleware(self, auth_providers):
+        backend = AuthMiddleware(auth_providers)
         self._middlewares.append(Middleware(AuthenticationMiddleware, backend = backend))  
 
     def path(self, path):
