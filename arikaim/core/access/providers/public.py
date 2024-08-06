@@ -1,7 +1,6 @@
-from arikaim.core.db.models.users import Users
-from arikaim.core.db.models.access_tokens import AccessTokens
+from arikaim.core.access.user import AuthUser
 
 class PublicAuthProvider:
     
     def authenticate(self, credentails):
-        return True
+        return AuthUser(authenticated = False, id = None)

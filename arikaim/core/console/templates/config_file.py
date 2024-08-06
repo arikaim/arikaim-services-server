@@ -19,8 +19,7 @@ db = {
 }
 
 # global middlewares
-middleware = {
-}
+middleware = []
 
 # redis connection 
 reid = None

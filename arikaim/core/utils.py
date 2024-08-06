@@ -11,6 +11,10 @@ def get_process_memory():
     process = psutil.Process(os.getpid())
     return (process.memory_info().rss / 1024)
 
+def load_service_module(service_name: str, module_name: str):
+    path = os.path.join(Path.services(service_name),module_name + '.py')  
+    return load_module(module_name,path)
+
 def inlcude_service_lib(service_name: str, module_name: str):
     path = os.path.join(Path.services(service_name),'lib',module_name + '.py')
     return load_module(module_name,path)

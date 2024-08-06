@@ -1,7 +1,9 @@
+from starlette.authentication import SimpleUser
 from arikaim.core.db.models.users import Users
 from arikaim.core.db.models.access_tokens import AccessTokens
 from arikaim.core.redis import redis
 from arikaim.core.utils import php_unserialize
+from arikaim.core.access.user import AuthUser
 
 class RedisPHPSessionAuthProvider:
     
@@ -26,8 +28,9 @@ class RedisPHPSessionAuthProvider:
                 return False
             
             print(auth_id)
+            user = Users.get(Users.id == session_data['auth.id'])
 
-            #return Users.get(Users.id == session_data['auth.id'])
-
+            return AuthUser(id = user.id, uuid = user.uuid, username = user.username, email = user.email)
+        
         except (Users.DoesNotExist, AccessTokens.DoesNotExist):
             return False

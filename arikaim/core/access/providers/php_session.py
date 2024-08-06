@@ -7,6 +7,7 @@ from arikaim.core.db.models.access_tokens import AccessTokens
 from arikaim.core.utils import php_unserialize
 from arikaim.core.logger import logger
 from arikaim.core.path import Path 
+from arikaim.core.access.user import AuthUser
 
 class PhpSessionAuthProvider:
     
@@ -23,8 +24,9 @@ class PhpSessionAuthProvider:
             if 'auth.id' not in session_data:
                 return False
   
-            return Users.get(Users.id == session_data['auth.id'])
+            user = Users.get(Users.id == session_data['auth.id'])
 
+            return AuthUser(id = user.id, uuid = user.uuid, username = user.username, email = user.email)
         except (Users.DoesNotExist, AccessTokens.DoesNotExist):
             return False
 

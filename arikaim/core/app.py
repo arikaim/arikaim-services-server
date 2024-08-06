@@ -11,12 +11,10 @@ from arikaim.core.logger import logger
 from arikaim.core.container import di
 from arikaim.core.packages import load_package_descriptor
 from arikaim.core.admin.admin import AdminService
-
-from arikaim.core.middleware.sanitize import SanitizeMiddleware
 from arikaim.core.middleware.system import SystemMiddleware
-from starlette.middleware.cors import CORSMiddleware
 
 class ArikaimApp:
+    _instance = None
 
     def __init__(self):        
         self._services = []
@@ -24,7 +22,19 @@ class ArikaimApp:
         self._starlette = None
         self._config = None
         self._routes = []
-       
+        self._middlewares = []
+        self._default_middlewares = [
+            Middleware(SystemMiddleware)
+        ]
+    
+    def __new__(cls, *args, **kwargs):
+        if not isinstance(cls._instance, cls):
+            cls._instance = object.__new__(cls, *args, **kwargs)
+        return cls._instance
+    
+    def add_middleware(self, middleware):
+        self._middlewares.append(middleware)
+
     def load_service_console_commands(self, service_name: str, module_name = None):
         if not module_name:
             module_name = 'console'
@@ -98,18 +108,17 @@ class ArikaimApp:
         # load services routes
         self.boot_services()
 
+        # middlewares
+        middlewares = self._default_middlewares + self._config.middleware + self._middlewares
+        for middleware in middlewares:
+            logger.info('Add ' + str(middleware))
+     
+        # starlette instance
         self._starlette = Starlette(
             debug = True, 
             routes = self._routes, 
             on_shutdown = [self.on_shutdown],
-            middleware = [
-                Middleware(CORSMiddleware, 
-                    allow_origins=['*'],
-                    allow_credentials=True,
-                    allow_methods=["*"],
-                    allow_headers=["*"]),
-                Middleware(SystemMiddleware)
-            ], 
+            middleware = middlewares, 
             exception_handlers = error_handlers
         )
 
