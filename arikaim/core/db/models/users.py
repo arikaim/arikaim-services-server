@@ -12,6 +12,18 @@ class Users(Model):
     date_created = IntegerField()
     date_deleted = IntegerField()
 
+    @staticmethod
+    def find_user(id):
+        return (Users
+            .select()
+            .where(
+                (Users.id == id) |
+                (Users.uuid == id)
+            )
+            .where(Users.status == 1)
+            .where(Users.date_deleted == None)
+            .get_or_none())
+    
     class Meta:
         table_name = 'users'
         database = db.peewee

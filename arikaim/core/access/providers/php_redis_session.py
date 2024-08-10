@@ -21,16 +21,19 @@ class RedisPHPSessionAuthProvider:
                 return False
             
             session = php_unserialize(str(session_data))
-
+          
             if 'auth.id' in session:
                 auth_id = session['auth.id']
             else:
                 return False
             
             print(auth_id)
-            user = Users.get(Users.id == session_data['auth.id'])
-
-            return AuthUser(id = user.id, uuid = user.uuid, username = user.username, email = user.email)
+           
+            user = Users.find_user(auth_id)
+            if user == None:
+                return False
+            else:
+                return AuthUser(id = user.id, uuid = user.uuid, username = user.user_name, email = user.email)
         
         except (Users.DoesNotExist, AccessTokens.DoesNotExist):
             return False
