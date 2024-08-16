@@ -1,12 +1,10 @@
 from arikaim.core.controller import Controller, get
-from arikaim.core.container import di
+from arikaim.core.services import services
 
 class ServicesList(Controller):
 
     @get
     async def get(self, request, data):  
-        app = di.get('app')
-
-        self.field('services',app.services)
+        self.field('services',services.services)
         self.message('Service list')
         

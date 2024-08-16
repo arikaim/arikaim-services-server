@@ -3,6 +3,7 @@ from starlette.routing import Route, Mount, WebSocketRoute
 from starlette.middleware import Middleware
 from starlette.middleware.authentication import AuthenticationMiddleware
 from arikaim.core.access.middleware import AuthMiddleware
+from arikaim.core.path import Path
 
 class Service:
     
@@ -60,3 +61,8 @@ class Service:
                 name = self._name, 
                 middleware = self._middlewares
             )
+        
+
+def create_instace(service_name):
+    service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
+    return service_class(service_name) 

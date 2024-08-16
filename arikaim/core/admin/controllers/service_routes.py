@@ -1,12 +1,11 @@
 from arikaim.core.controller import Controller, get
-from arikaim.core.container import di
+from arikaim.core.services import services
 
 class ServiceRoutes(Controller):
 
     @get
-    async def get(self, request, data):  
-        app = di.get('app')
-        service = app.get_service(data['name'])
+    async def get(self, request, data):         
+        service = services.get_service(data['name'])
         
         routes = []
         if service != None:

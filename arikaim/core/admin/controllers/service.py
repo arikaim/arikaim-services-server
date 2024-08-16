@@ -1,5 +1,4 @@
 from arikaim.core.controller import Controller, get
-from arikaim.core.container import di
 from arikaim.core.packages import load_package_descriptor
 
 class ServiceDescriptor(Controller):
