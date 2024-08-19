@@ -10,7 +10,8 @@ class ServiceRoute(Controller):
         result = {} 
         
         for route in service.routes.routes:
-            service_path = service.mount_path + route.path
+            service_path = route.path
+           
             if service_path.lstrip('/') == path:
                 descriptor = route.endpoint.descriptor()
                 result = {
