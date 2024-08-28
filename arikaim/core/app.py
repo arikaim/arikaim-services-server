@@ -62,7 +62,7 @@ class ArikaimApp:
         return self._config
     
     def system_init(self):
-        logger.info('App init')
+        logger.info('Init')
         
         # enable GC
         gc.enable()

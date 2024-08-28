@@ -2,7 +2,7 @@ import click
 import os
 from rich import print
 from arikaim.core.path import Path
-from arikaim.core.console.templates .config_file import content
+from arikaim.core.console.templates.config_file import content
 from arikaim.core.app import app
 
 @click.group()

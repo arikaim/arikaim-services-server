@@ -1,3 +1,4 @@
+import abc
 from arikaim.core.collection.descriptor import PropertiesDescriptor
 
 class Action:
@@ -43,8 +44,10 @@ class Action:
     def init(self):
         pass
 
+    @abc.abstractmethod
     def run(self):
-        pass
+        """Implement action run method"""
+        return
 
     def hasError(self):
         if not self._error:
@@ -68,6 +71,12 @@ class Action:
         self._options[name] = value
         return self
     
+    def get_option(self, name, default):
+        if name in self._options:
+            return self._options[name]
+        
+        return default
+
     def result(self, name, value):
         self._result[name] = value
         return self
