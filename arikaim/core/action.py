@@ -71,7 +71,7 @@ class Action:
         self._options[name] = value
         return self
     
-    def get_option(self, name, default):
+    def get_option(self, name, default = None):
         if name in self._options:
             return self._options[name]
         

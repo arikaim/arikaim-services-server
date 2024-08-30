@@ -26,7 +26,7 @@ packages = [
     'arikaim.core.admin.controllers',
     'arikaim.core.collection',
     'arikaim.core.access',
-    'arikaim.core.access',
+    'arikaim.core.view',
     'arikaim.core.access.providers',
     'arikaim.core.console',
     'arikaim.core.console.templates',

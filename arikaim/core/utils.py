@@ -4,8 +4,9 @@ from datetime import datetime
 from arikaim.core.path import Path
 import psutil
 
-def load_action(service_name: str, module_name: str):
-    pass
+def create_action(service_name, module_name, class_name):   
+    class_name = load_class(Path.actions(service_name),module_name,class_name) 
+    return class_name()
 
 def get_process_memory():
     process = psutil.Process(os.getpid())

@@ -10,6 +10,7 @@ class Service:
     def __init__(self, name: str, mount_path = None):
         self._routes = []      
         self._middlewares = []     
+        self._route_middlewares = []     
         self._name = name
         self._mounth_path = mount_path
         
@@ -22,12 +23,18 @@ class Service:
     def init_container(self):
         pass
 
-    def add_route(self, method, path, endpoint, name = None):
+    def add_route(self, method, path, endpoint, name = None, auth_providers = None):
+        middleware = None
+        if auth_providers != None:
+            backend = AuthMiddleware(auth_providers)
+            middleware = [Middleware(AuthenticationMiddleware, backend = backend)]
+            
         self._routes.append(Route(
             path,
             endpoint = endpoint,
             name = name,
-            methods = method
+            methods = method,
+            middleware = middleware
         ))           
 
     def add_websocket_route(self, path, endpoint):       

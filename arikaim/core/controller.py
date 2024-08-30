@@ -2,6 +2,7 @@ import html
 from schema import *
 from starlette.endpoints import HTTPEndpoint
 from starlette.types import Receive, Scope, Send
+from starlette.responses import Response
 
 from arikaim.core.collection.descriptor import PropertiesDescriptor
 from arikaim.core.response import ApiResponse
@@ -18,9 +19,12 @@ class Controller(HTTPEndpoint):
         self._fields = {}
         self._descriptor = None
         self._schema = None
-
+        self._media_type = 'application/json'
         self.boot()
         
+    def media_type(self, value):
+        self._media_type = value
+
     def schema(self, schema_def):
         self._schema = Schema(schema_def)
 
@@ -38,13 +42,25 @@ class Controller(HTTPEndpoint):
         pass
 
     def response(self):       
-        return ApiResponse(self.get_result())
-
+        if self._media_type == 'application/json':
+            return ApiResponse(
+                self.get_result(), 
+                media_type = self._media_type
+            )
+        else:
+            return Response(
+                content = self._fields['content'], 
+                media_type = self._media_type
+            )
+        
     def message(self, value):
         self._fields['message'] = value
 
     def field(self, key, value):
         self._fields[key] = value
+
+    def content(self, value):
+        self._fields['content'] = value
 
     def error(self, error):
         self._errors.append(error)

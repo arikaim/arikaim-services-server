@@ -15,6 +15,18 @@ class Path:
         return os.path.join(Path.base(),'arikaim')
     
     @staticmethod
+    def view(path: str = ''):       
+        return os.path.join(Path.arikaim(),'view',path.strip('/'))
+    
+    @staticmethod
+    def templates():       
+        return os.path.join(Path.view(),'view','templates','python')
+    
+    @staticmethod
+    def template(name: str):       
+        return os.path.join(Path.templates(),name)
+    
+    @staticmethod
     def model(service_name):
         if not service_name:
             return os.path.join(Path.base(),'db','models')
