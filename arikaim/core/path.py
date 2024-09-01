@@ -20,7 +20,7 @@ class Path:
     
     @staticmethod
     def templates():       
-        return os.path.join(Path.view(),'view','templates','python')
+        return os.path.join(Path.view(),'templates')
     
     @staticmethod
     def template(name: str):       

@@ -11,7 +11,7 @@ class Drivers(Model):
     config = TextField(null = True)
    
     @staticmethod
-    def get_config(self, name):
+    def get_config(name):
         model = (Drivers
             .select(Drivers.config)
             .where(Drivers.name == name)

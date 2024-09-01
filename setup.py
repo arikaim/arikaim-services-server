@@ -77,7 +77,8 @@ install_requires=[
     'requests',
     'pydantic',            
     'schema',
-    'redis'   
+    'redis',
+    'Jinja2'   
 ],
 
 # https://pypi.org/classifiers/ 

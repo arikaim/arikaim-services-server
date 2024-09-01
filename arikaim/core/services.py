@@ -36,7 +36,9 @@ class Services:
             logger.info('Boot service: ' + service_name)
             service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
             self._services_instance[service_name] = service_class(service_name) 
-          
+
+            self._services_instance[service_name].boot()
+            
             if load_routes == True:
                 self._services_instance[service_name].init_routes()
             if init_container == True:

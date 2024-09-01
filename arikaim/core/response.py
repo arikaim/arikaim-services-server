@@ -4,8 +4,7 @@ import typing
 from starlette.responses import JSONResponse
 
 class ApiResponse(JSONResponse):
-    #media_type = "application/json"
-
+    
     def render(self, content: typing.Any) -> bytes:
         return json.dumps(content,
             ensure_ascii = False,
