@@ -4,67 +4,70 @@ class Path:
     base_path = ''
 
     @staticmethod
-    def base():
+    def base(relative = True):
         if Path.base_path is None:
             Path.base_path = os.getcwd()
-            
-        return Path.base_path
+
+        if relative == True:
+            return Path.base_path
+           
+        return os.path.abspath(Path.base_path)
 
     @staticmethod
-    def arikaim():
-        return os.path.join(Path.base(),'arikaim')
+    def arikaim(relative = True):
+        return os.path.join(Path.base(relative),'arikaim')
     
     @staticmethod
-    def view(path: str = ''):       
-        return os.path.join(Path.arikaim(),'view',path.strip('/'))
+    def view(path: str = '', relative = True):       
+        return os.path.join(Path.arikaim(relative),'view',path.strip('/'))
     
     @staticmethod
-    def templates():       
-        return os.path.join(Path.view(),'templates')
+    def templates(relative = True):       
+        return os.path.join(Path.view(relative = relative),'templates')
     
     @staticmethod
-    def template(name: str):       
-        return os.path.join(Path.templates(),name)
+    def template(name: str, relative = True):       
+        return os.path.join(Path.templates(relative),name)
     
     @staticmethod
-    def model(service_name):
+    def model(service_name, relative = True):
         if not service_name:
-            return os.path.join(Path.base(),'db','models')
+            return os.path.join(Path.base(relative),'db','models')
         else:
-            return os.path.join(Path.services(service_name),'models')
+            return os.path.join(Path.services(service_name, relative = relative),'models')
 
     @staticmethod
-    def actions(service_name):
+    def actions(service_name, relative = True):
         if not service_name:
-            return os.path.join(Path.base(),'actions')
+            return os.path.join(Path.base(relative),'actions')
         else:
-            return os.path.join(Path.services(service_name),'actions')
+            return os.path.join(Path.services(service_name, relative = relative),'actions')
         
     @staticmethod
-    def job(service_name):
+    def job(service_name, relative = True):
         if not service_name:
-            return os.path.join(Path.base(),'queue','jobs')
+            return os.path.join(Path.base(relative),'queue','jobs')
         else:
-            return os.path.join(Path.services(service_name),'jobs')
+            return os.path.join(Path.services(service_name, relative = relative),'jobs')
 
     @staticmethod
-    def console(service_name):
-        return os.path.join(Path.services(service_name),'console')
+    def console(service_name, relative = True):
+        return os.path.join(Path.services(service_name, relative = relative),'console')
 
     @staticmethod
-    def storage(path: str = ''):       
-        return os.path.join(Path.base(),'arikaim','storage',path.strip('/'))
+    def storage(path: str = '', relative = True):       
+        return os.path.join(Path.base(relative),'arikaim','storage',path.strip('/'))
         
     @staticmethod
-    def services(name = ''):
-        services_path = os.path.join(Path.base(),'arikaim','services')
+    def services(name = '', relative = True):
+        services_path = os.path.join(Path.base(relative),'arikaim','services')
         if name != "":
             return os.path.join(services_path,name)
         return services_path
 
     @staticmethod
-    def config(file_name = None):
-        path = os.path.join(Path.base(),'arikaim','config')
+    def config(file_name = None, relative = True):
+        path = os.path.join(Path.base(relative),'arikaim','config')
         if (file_name != None): 
             path = os.path.join(path,file_name) 
         return path

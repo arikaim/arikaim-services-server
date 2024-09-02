@@ -19,7 +19,6 @@ class Users(Model):
         user = Users.find_by_email(email)
 
         if not user:
-            print('create')
             # create
             Users.create(
                 uuid = str(uuid.uuid4()),
