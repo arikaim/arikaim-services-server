@@ -37,9 +37,15 @@ class Db:
     @property
     def peewee(self):
         return self._peewee
+    
+    def load_model(self,model_class, module_name, service_name = None):
+        return load_model_class(model_class,module_name,service_name)
+
 
 
 db = Db()
+
+
 
 def load_model_class(model_class, module_name, service_name = None):
     if not service_name:        

@@ -9,3 +9,5 @@ psutil
 requests
 pydantic
 schema
+redis
+Jinja2
