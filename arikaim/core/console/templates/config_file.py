@@ -22,5 +22,5 @@ db = {
 middleware = []
 
 # redis connection 
-reid = None
+redis = None
 """

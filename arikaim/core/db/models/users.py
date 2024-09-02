@@ -1,3 +1,5 @@
+import uuid
+import secrets
 from peewee import *
 from arikaim.core.db.db import db
 
@@ -12,6 +14,35 @@ class Users(Model):
     date_created = IntegerField()
     date_deleted = IntegerField()
 
+    @staticmethod
+    def find_user_or_create(email, user_name = None):
+        user = Users.find_by_email(email)
+
+        if not user:
+            print('create')
+            # create
+            Users.create(
+                uuid = str(uuid.uuid4()),
+                email = email,
+                user_name = user_name,
+                status = 1,
+                password = secrets.token_hex(32)  
+            )
+
+            return Users.find_by_email(email)
+        else:
+            return user
+      
+    
+    @staticmethod
+    def find_by_email(email):
+        return (Users
+            .select()
+            .where(
+                Users.email == email
+            )
+            .get_or_none())
+        
     @staticmethod
     def find_user(id):
         return (Users

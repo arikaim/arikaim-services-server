@@ -7,7 +7,6 @@ class View():
     def __init__(self):   
         self._templates_path = Path.templates()
 
-        print(self._templates_path)
         self._env = Environment(
             loader = FileSystemLoader(self._templates_path),
             autoescape = select_autoescape()
