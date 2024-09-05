@@ -21,7 +21,8 @@ class ServiceRoute(Controller):
                     'name': route.name,
                     'methods': list(route.methods),
                     'params': descriptor.params,
-                    'result': descriptor.result_fields          
+                    'result': descriptor.result_fields,
+                    'example_values': descriptor.get_example_values()     
                 }
                 break
 

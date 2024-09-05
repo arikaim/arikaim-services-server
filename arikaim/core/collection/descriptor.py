@@ -44,6 +44,13 @@ class PropertiesDescriptor:
         self._properties[name] = Property(name)
         return self._properties[name]
     
+    def get_example_values(self):
+        result = {}
+        for key, prop in self._properties.items():
+            result[key] = prop.get_example_value()
+
+        return result
+    
     @property
     def params(self):
         return self._properties

@@ -26,6 +26,7 @@ class Property:
         self._readonly = False
         self._required = False
         self._value = None
+        self._example_value = None
         self._default = None
 
         if type(data) is dict:
@@ -37,6 +38,7 @@ class Property:
         return {
             'name': self._name,
             'description': self._description,
+            'example_value': self._example_value,
             'type': self._type,
             'readonly': self._readonly,
             'value': self._value,
@@ -45,12 +47,23 @@ class Property:
             'title': self._title
         }
        
+    @property
+    def name(self):
+        return self._nane
+
+    def get_example_value(self):
+        return self._example_value
+    
     def default(self, value):
         self._default = value
         return self
     
     def value(self, value):
         self._value = value
+        return self
+    
+    def example_value(self, value):
+        self._example_value = value
         return self
     
     def title(self, value: str):
