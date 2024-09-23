@@ -11,4 +11,4 @@ class AdminService(Service):
         self.add_route(["GET"],"/services",ServicesList)
         self.add_route(["GET"],"/service/details/{name}",ServiceDescriptor)
         self.add_route(["GET"],"/service/routes/{name}",ServiceRoutes)
-        self.add_route(["GET"],"/service/route/{name}/{path}",ServiceRoute)
+        self.add_route(["GET"],"/service/route/{name}/{route_name}",ServiceRoute)

@@ -6,18 +6,17 @@ class ServiceRoute(Controller):
     @get
     async def get(self, request, data):       
         service = services.get_service(data['name'])
-        path = data['path'].lstrip('/')
+        route_name = data['route_name']
         result = {} 
         
         for route in service.routes.routes:
-            service_path = route.path
            
-            if service_path.lstrip('/') == path:
+            if route.name == route_name:
                 descriptor = route.endpoint.descriptor()
                 result = {
                     'title': descriptor.title,
                     'description': descriptor.description,
-                    'path': service_path,                         
+                    'path': service.mount_path + route.path,                         
                     'name': route.name,
                     'methods': list(route.methods),
                     'params': descriptor.params,
@@ -27,7 +26,7 @@ class ServiceRoute(Controller):
                 break
 
         self.field('name',data['name'])
-        self.field('path',data['path'])       
+        self.field('path',service.mount_path + route.path)       
         self.field('route',result)
         self.message('Service route')
     
