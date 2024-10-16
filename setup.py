@@ -69,7 +69,7 @@ install_requires=[
     'uvicorn',
     'starlette==0.37.2',
     'pymysql',
-    'peewee',
+    'sqlmodel',
     'click',
     'bleach',
     'rich',

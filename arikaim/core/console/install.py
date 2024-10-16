@@ -32,6 +32,4 @@ def install():
     print('')
 
     print('Create db tables ')
-    Users = load_model_class('Users','users')
-
-    di.get('db').peewee.create_table(Users)
+    Users = load_model_class('Users','users')    

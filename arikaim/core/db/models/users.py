@@ -1,18 +1,21 @@
 import uuid
 import secrets
-from peewee import *
+from typing import Optional
+from sqlmodel import Field, SQLModel
 from arikaim.core.db.db import db
 
-class Users(Model):     
-    id = BigAutoField(unique = True, primary_key = True)
-    uuid = CharField(unique = True)
-    user_name = CharField(unique = True)
-    email = CharField(unique = True)
-    password = CharField(unique = False)
-    status = IntegerField()
-    date_login = IntegerField()
-    date_created = IntegerField()
-    date_deleted = IntegerField()
+class Users(SQLModel):    
+    __tablename__ = 'users'
+
+    id: int = Field(unique = True, primary_key = True)
+    uuid: str = Field(unique = True)
+    user_name: str = Field(unique = True)
+    email: str = Field(unique = True)
+    password: str = Field(unique = False)
+    status: int = Field()
+    date_login: Optional[int] = None
+    date_created: Optional[int] = None
+    date_deleted: Optional[int] = None
 
     @staticmethod
     def find_user_or_create(email, user_name = None):
@@ -54,6 +57,4 @@ class Users(Model):
             .where(Users.date_deleted == None)
             .get_or_none())
     
-    class Meta:
-        table_name = 'users'
-        database = db.peewee
+   

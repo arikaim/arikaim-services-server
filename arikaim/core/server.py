@@ -1,9 +1,9 @@
 import uvicorn
-from peewee import *
 
 from arikaim.core.logger import logger
 from arikaim.core.utils import *
 from arikaim.core.app import app
+from arikaim.core.path import Path
 
 class ArikaimServer:
     _instance = None
@@ -28,6 +28,10 @@ class ArikaimServer:
         uvicorn.run(
             'arikaim.core.app:app.boot', 
             reload = reload,
+            reload_dirs = [
+                Path.services('',False),
+                Path.templates(False)
+            ],
             factory = True,
             workers = 1,           
             host = self._config.settings['host'], 

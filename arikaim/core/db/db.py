@@ -1,13 +1,13 @@
-from peewee import *
 from arikaim.core.path import Path
 import imp,os,importlib;
+from sqlmodel import create_engine
 
 class Db: 
     _instance = None
 
-    def __init__(self, ):
+    def __init__(self):
         self._config = None
-        self._peewee = None
+        self._engine = None
 
     def __new__(cls, *args, **kwargs):
         if not isinstance(cls._instance, cls):
@@ -16,31 +16,23 @@ class Db:
     
     def connect(self, config):     
         self._config = config
-
-        self._peewee = MySQLDatabase(
-            self._config['database'],
-            user = self._config['username'],
-            password = self._config['password'],
-            host = self._config['host']
+        self._engine = create_engine(
+            'mysql+pymysql://' + self._config['username'] + ':' + self._config['password'] + '@' + self._config['host'] + '/' +  self._config['database']
         )
 
     def close(self):
-        if not self._peewee:
+        if not self._engine:
             return False
-        self._peewee.close()
+        self._engine.dispose()
         
         return True
 
-    def bind(self, models):
-        self._peewee.bind(models)
-
     @property
-    def peewee(self):
-        return self._peewee
+    def engine(self):
+        return self._engine
     
     def load_model(self,model_class, module_name, service_name = None):
         return load_model_class(model_class,module_name,service_name)
-
 
 
 db = Db()

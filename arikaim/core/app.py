@@ -2,8 +2,8 @@ import gc
 
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
+from starlette.middleware.exceptions import ExceptionMiddleware
 
-from arikaim.core.packages import load_package_descriptor
 from arikaim.core.services import services
 from arikaim.core.redis import redis_connect
 from arikaim.core.utils import *
@@ -104,6 +104,8 @@ class ArikaimApp:
             exception_handlers = error_handlers
         )
 
+        #self._starlette.add_middleware(ExceptionMiddleware,handlers = error_handlers)
+        
         return self.starlette
 
     async def on_shutdown(self):

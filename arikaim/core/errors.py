@@ -47,10 +47,30 @@ async def api_call_quota_billing_error(request: Request, exc: HTTPException):
         'code'  : exc.status_code
     }) 
 
+async def http_exception(request: Request, exc: HTTPException):
+    return ApiResponse({
+        'result': '',
+        'details': exc.detail,
+        'status': exc.status_code,
+        'errors': ['Http error'],
+        'code'  : exc.status_code
+    })
+
+async def handle_error(request: Request, exc: HTTPException):
+    return ApiResponse({
+        'result': '',
+        'details': exc.detail,
+        'status': exc.status_code,
+        'errors': ['Error '],
+        'code'  : exc.status_code
+    })
+
 error_handlers = {
     401: unauthorized_error,
     404: not_found_error,
     500: server_error,
     429: api_call_quota_limit_error,
-    430: api_call_quota_billing_error
+    430: api_call_quota_billing_error,
+    HTTPException: http_exception,
+    Exception: handle_error
 }
