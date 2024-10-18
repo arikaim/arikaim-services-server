@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: arikaim
-Version: 0.5.17
+Version: 0.5.20
 Summary: Arikaim services server
 Home-page: https://github.com/arikaim/arikaim-services-server.git
 Download-URL: 
@@ -10,9 +10,9 @@ License: MIT License
 Keywords: arikaim
 Description-Content-Type: text/markdown
 Requires-Dist: uvicorn
-Requires-Dist: starlette==0.37.2
+Requires-Dist: starlette==0.40.0
 Requires-Dist: pymysql
-Requires-Dist: peewee
+Requires-Dist: sqlmodel
 Requires-Dist: click
 Requires-Dist: bleach
 Requires-Dist: rich

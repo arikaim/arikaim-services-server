@@ -1,17 +1,15 @@
-from peewee import *
-from arikaim.core.db.db import db
+from typing import Optional
+from sqlmodel import Field, SQLModel
 
-class PermissionRelations(Model):
-    id = BigAutoField(unique = True, primary_key = True)
-    uuid = CharField(unique = True)
-    read = IntegerField()
-    write = IntegerField()
-    delete = IntegerField()
-    execute = IntegerField()
-    permission_id = IntegerField()
-    relation_id = IntegerField()
-    relation_type = CharField()
+class PermissionRelations(SQLModel, table = True):
+    __tablename__ = 'permission_relations'
 
-    class Meta:
-        table_name = 'permission_relations'
-        database = db.peewee
+    id: int = Field(unique = True, primary_key = True)
+    uuid: str = Field(unique = True)
+    read: int
+    write: int
+    delete: int
+    execute: int
+    permission_id: int
+    relation_id: int
+    relation_type: str

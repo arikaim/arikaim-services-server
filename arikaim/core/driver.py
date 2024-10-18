@@ -13,9 +13,9 @@ class DriverManager():
             cls._instance = object.__new__(cls, *args, **kwargs)
         return cls._instance
     
-    def get_config(self, driver_name: str):
+    def get_config(self, session, driver_name: str):
         Drivers = load_model_class('Drivers','drivers')
-        json_text = Drivers.get_config(driver_name)
+        json_text = Drivers.get_config(session,driver_name)
         if not json_text:
             return None
         

@@ -1,6 +1,7 @@
 from arikaim.core.path import Path
 import imp,os,importlib;
-from sqlmodel import create_engine
+from sqlmodel import create_engine, Session
+from sqlalchemy.orm import sessionmaker
 
 class Db: 
     _instance = None
@@ -16,10 +17,13 @@ class Db:
     
     def connect(self, config):     
         self._config = config
-        self._engine = create_engine(
-            'mysql+pymysql://' + self._config['username'] + ':' + self._config['password'] + '@' + self._config['host'] + '/' +  self._config['database']
-        )
+        connect = 'mysql+pymysql://' + self._config['username'] + ':' + self._config['password'] + '@' + self._config['host'] + '/' +  self._config['database']      
+        echo = False
+        if echo in self._config:
+            echo = self._config['echo']
 
+        self._engine = create_engine(connect, echo = echo)
+       
     def close(self):
         if not self._engine:
             return False
@@ -36,8 +40,6 @@ class Db:
 
 
 db = Db()
-
-
 
 def load_model_class(model_class, module_name, service_name = None):
     if not service_name:        

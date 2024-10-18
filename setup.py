@@ -37,7 +37,7 @@ packages = [
 ],
    
 # Project version number:
-version = '0.5.17',
+version = '0.5.20',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',
@@ -67,7 +67,7 @@ keywords=['arikaim'],
 # List project dependencies: 
 install_requires=[   
     'uvicorn',
-    'starlette==0.40.0',
+    'starlette==0.40.0',    
     'pymysql',
     'sqlmodel',
     'click',
