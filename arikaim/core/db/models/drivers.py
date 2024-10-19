@@ -16,7 +16,7 @@ class Drivers(SQLModel, table = True):
     def get_config(session, name):
         stm = select(Drivers).where(Drivers.name == name)
         model = session.exec(stm).first()
-
+        
         if not model:
             return None
         else:    

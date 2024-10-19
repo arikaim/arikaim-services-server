@@ -20,6 +20,7 @@ class TokenAuthProvider:
             
                 statement = select(Users).where(Users.id == access_tokens.user_id)
                 user = session.exec(statement).first()
+                session.close()
                 
                 return AuthUser(id = user.id, uuid = user.uuid, username = user.user_name, email = user.email)
         except SQLAlchemyError as e:
