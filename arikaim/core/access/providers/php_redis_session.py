@@ -26,9 +26,7 @@ class RedisPHPSessionAuthProvider:
                 auth_id = session['auth.id']
             else:
                 return False
-            
-            print(auth_id)
-           
+                 
             user = Users.find_user(auth_id)
             if user == None:
                 return False

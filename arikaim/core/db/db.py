@@ -1,7 +1,6 @@
 from arikaim.core.path import Path
 import imp,os,importlib;
-from sqlmodel import create_engine, Session
-from sqlalchemy.orm import sessionmaker
+from sqlmodel import create_engine
 
 class Db: 
     _instance = None

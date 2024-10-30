@@ -33,8 +33,9 @@ class Services:
                 logger.info('service: ' + service_name + ' disabled ')
                 continue
 
-            logger.info('Boot service: ' + service_name)
-            service_class = load_class(Path.services(service_name),service_name,service_name.capitalize())
+            logger.info('Boot service: ' + service_name)           
+            module_name = 'arikaim.services.' + service_name + '.' + service_name
+            service_class = load_class(Path.services(service_name),module_name,service_name.capitalize())
             self._services_instance[service_name] = service_class(service_name) 
 
             self._services_instance[service_name].boot()
