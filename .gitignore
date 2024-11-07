@@ -3,7 +3,7 @@ vendor/
 arikaim/*
 !arikaim/core/
 !arikaim/core/*/
-
+arikaim.egg-info
 __pycache__
 node_modules
 composer.lock

@@ -4,9 +4,9 @@ from datetime import datetime
 from arikaim.core.path import Path
 import psutil
 
-def create_action(service_name, module_name, class_name):   
+def create_action(service_name: str, module_name: str, class_name: str, options: dict = {}):   
     class_name = load_class(Path.actions(service_name),module_name,class_name) 
-    return class_name()
+    return class_name(options)
 
 def get_process_memory():
     process = psutil.Process(os.getpid())
@@ -33,20 +33,20 @@ def call(object, method_name: str, **params):
 def time_now() -> int:
     return datetime.now().timestamp()
 
-def load_class(path, module_name, class_name, package = None):
+def load_class(path, module_name: str, class_name: str, package = None):
     module_path = os.path.join(path)
     sys.path.append(module_path)
     module = importlib.import_module(module_name, package = package) 
    
     return getattr(module,class_name)
 
-def load_module_vars(path, module_name):
+def load_module_vars(path, module_name: str):
     module_path = os.path.join(path)
     sys.path.append(module_path)
 
     return importlib.import_module(module_name, package = module_name)
    
-def load_module(name, path):
+def load_module(name: str, path: str):
     try:
         return imp.load_source(name,path)
     except BaseException as e:

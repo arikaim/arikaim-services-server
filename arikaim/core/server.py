@@ -9,7 +9,7 @@ class ArikaimServer:
     _instance = None
 
     def __init__(self,config):
-        self._version = '0.5.28'
+        self._version = '0.5.29'
         self._config = config
         
     def run(self, reload = False, path = None):

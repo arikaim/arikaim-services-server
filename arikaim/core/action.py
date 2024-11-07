@@ -3,7 +3,7 @@ from arikaim.core.collection.descriptor import PropertiesDescriptor
 
 class Action:
 
-    def __init__(self, options = {}):
+    def __init__(self, options: dict = {}):
         self._name = ''
         self._title = ''
         self._description = ''
@@ -19,7 +19,7 @@ class Action:
         return self._name
     
     @name.setter
-    def name(self, name):
+    def name(self, name: str):
         self._name = name
 
     @property
@@ -27,7 +27,7 @@ class Action:
         return self._title
     
     @title.setter
-    def title(self, title):
+    def title(self, title: str):
         self._title = title
 
     @property
@@ -35,7 +35,7 @@ class Action:
         return self._description
     
     @description.setter
-    def description(self, description):
+    def description(self, description: str):
         self._description = description
     
     def __call__(self):
@@ -49,13 +49,13 @@ class Action:
         """Implement action run method"""
         return
 
-    def hasError(self):
+    def has_error(self):
         if not self._error:
-            return True
-        else:
             return False
+        else:
+            return True
 
-    def error(self, error):
+    def error(self, error: str):
         self._error = error
         return self
     
@@ -63,25 +63,29 @@ class Action:
     def error(self):
         return self._error
     
-    def options(self, options):
+    def options(self, options: dict):
         self._options = options
         return self
     
-    def option(self, name, value):
+    def option(self, name: str, value: any):
         self._options[name] = value
         return self
     
-    def get_option(self, name, default = None):
+    def get_option(self, name: str, default: any = None):
         if name in self._options:
             return self._options[name]
         
         return default
 
-    def result(self, name, value):
+    def result(self, name: str, value: any):
         self._result[name] = value
         return self
     
-    def get(self, name, default = None):
+    @property
+    def results(self):
+        return self._result
+    
+    def get(self, name: str, default: any = None):
         if name in self._result:
             return self._result[name]
         

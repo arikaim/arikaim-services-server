@@ -9,7 +9,7 @@ class ApiResponse(JSONResponse):
         return json.dumps(content,
             ensure_ascii = False,
             allow_nan = False,
-            indent = None,
+            indent = 4,
             default = lambda obj : obj.to_json(),
             separators = (",", ":"),
         ).encode("utf-8")

@@ -44,6 +44,7 @@ arikaim/core/console/app.py
 arikaim/core/console/config.py
 arikaim/core/console/install.py
 arikaim/core/console/packages.py
+arikaim/core/console/services.py
 arikaim/core/console/templates/config_file.py
 arikaim/core/db/db.py
 arikaim/core/db/models/access_tokens.py
