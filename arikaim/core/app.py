@@ -1,4 +1,5 @@
 import gc
+import sys
 
 from starlette.applications import Starlette
 from starlette.middleware import Middleware
@@ -64,6 +65,9 @@ class ArikaimApp:
     def system_init(self):
         logger.info('Init')
         
+        # include baase path 
+        sys.path.insert(0,Path.base(relative = False))
+        logger.info('Add base path ' + Path.base(relative = False))            
         # enable GC
         gc.enable()
 

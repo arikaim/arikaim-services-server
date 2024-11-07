@@ -13,9 +13,14 @@ def load_package_descriptor(service_name: str):
 
     return descriptor
 
-   
+def save_package_descriptor(service_name: str, descriptor):
+    package_file = os.path.join(Path.services(service_name),'arikaim-package.json')
+    file = open(package_file,'w')
+    json.dump(descriptor,file,ensure_ascii = False,indent = 4) 
+    file.close()
+
 def install_servide_packages(descriptor):   
-    packages = descriptor['require']['packages'];
+    packages = descriptor['require']['packages']
 
     for package in packages:        
         logger.info('Install Package ' + package)

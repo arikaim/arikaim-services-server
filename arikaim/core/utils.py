@@ -33,10 +33,10 @@ def call(object, method_name: str, **params):
 def time_now() -> int:
     return datetime.now().timestamp()
 
-def load_class(path, module_name, class_name):
+def load_class(path, module_name, class_name, package = None):
     module_path = os.path.join(path)
     sys.path.append(module_path)
-    module = importlib.import_module(module_name) 
+    module = importlib.import_module(module_name, package = package) 
    
     return getattr(module,class_name)
 
