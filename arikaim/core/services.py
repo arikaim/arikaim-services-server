@@ -1,6 +1,8 @@
+import sys
 from arikaim.core.logger import logger
 from arikaim.core.utils import *
 from arikaim.core.packages import load_package_descriptor
+from arikaim.core.path import Path
 
 class Services:
     _instance = None
@@ -26,7 +28,9 @@ class Services:
                 logger.warning('service: ' + service_name + 'disabled ')
                 continue
 
-            logger.info('Boot service: ' + service_name)           
+            logger.info('Boot service: ' + service_name)    
+            # add to sys path
+            sys.path.append(Path.services(service_name,False))      
             module_name = 'arikaim.services.' + service_name + '.' + service_name
     
             service_class = load_class(

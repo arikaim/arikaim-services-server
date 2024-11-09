@@ -26,25 +26,25 @@ class Path:
         return os.path.join(Path.view(relative = relative),'templates')
     
     @staticmethod
-    def template(name: str, relative = True):       
+    def template(name: str, relative: bool = True):       
         return os.path.join(Path.templates(relative),name)
     
     @staticmethod
-    def model(service_name, relative = True):
+    def model(service_name, relative: bool = True):
         if not service_name:
             return os.path.join(Path.base(relative),'db','models')
         else:
             return os.path.join(Path.services(service_name, relative = relative),'models')
 
     @staticmethod
-    def actions(service_name, relative = True):
+    def actions(service_name, relative: bool = True):
         if not service_name:
             return os.path.join(Path.base(relative),'actions')
         else:
             return os.path.join(Path.services(service_name, relative = relative),'actions')
         
     @staticmethod
-    def job(service_name, relative = True):
+    def job(service_name, relative: bool = True):
         if not service_name:
             return os.path.join(Path.base(relative),'queue','jobs')
         else:

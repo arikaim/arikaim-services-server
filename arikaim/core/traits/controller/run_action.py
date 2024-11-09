@@ -1,16 +1,22 @@
+from typing import Union
 from arikaim.core.utils import create_action
 
 class RunAction():
 
     def run_action(self, 
-        service_name: str, 
-        module_name: str, 
-        class_name: str, 
+        class_name, 
+        service_name: Union[str,None] = None, 
+        module_name: Union[str,None] = None, 
         options: dict = {}
     ):
         try:
-            action = create_action(service_name,module_name,class_name,options)
+            if service_name and module_name:
+                action = create_action(service_name,module_name,class_name,options)
+            else:
+                action = class_name(options)
+
             action.run()
+
             if action.has_error() == True:              
                 self.error(action.error)
                 return 
@@ -21,4 +27,4 @@ class RunAction():
             self.field('message',action.get('message','Success!'))
             
         except Exception as error:          
-            self.error('Error run action' + class_name)
+            self.error('Error run action: ' + str(error))

@@ -4,6 +4,9 @@ from datetime import datetime
 from arikaim.core.path import Path
 import psutil
 
+def load_action(service_name: str, module_name: str, class_name: str):
+    return load_class(Path.actions(service_name),module_name,class_name) 
+
 def create_action(service_name: str, module_name: str, class_name: str, options: dict = {}):   
     class_name = load_class(Path.actions(service_name),module_name,class_name) 
     return class_name(options)
