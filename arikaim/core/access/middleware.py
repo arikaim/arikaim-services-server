@@ -13,10 +13,13 @@ class AuthMiddleware(AuthenticationBackend):
             self._providers.append(auth_provider)
 
     async def authenticate(self, conn): 
-        for provider in self._providers:
-            user = access.authenticate(conn,provider)
+        try:
+            for provider in self._providers:
+                user = access.authenticate(conn,provider)
+            
+                if isinstance(user,AuthUser) == True:
+                    return AuthCredentials(["authenticated"]), user
+        except:
+            raise AuthError(status_code = 401)
         
-            if isinstance(user,AuthUser) == True:
-                return AuthCredentials(["authenticated"]), user
-
         raise AuthError(status_code = 401)
