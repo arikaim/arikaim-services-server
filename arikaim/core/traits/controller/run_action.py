@@ -1,5 +1,7 @@
 from typing import Union
 from arikaim.core.utils import create_action
+from arikaim.core.logger import logger
+import traceback
 
 class RunAction():
 
@@ -26,5 +28,6 @@ class RunAction():
             
             self.field('message',action.get('message','Success!'))
             
-        except Exception as error:          
+        except Exception as error:      
+            logger.error(traceback.format_exc())    
             self.error('Error run action: ' + str(error))

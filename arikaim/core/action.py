@@ -55,7 +55,7 @@ class Action:
         else:
             return True
 
-    def error(self, error: str):
+    def set_error(self, error: str):
         self._error = error
         return self
     

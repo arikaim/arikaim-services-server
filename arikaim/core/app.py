@@ -2,6 +2,7 @@ import gc
 import sys
 
 from starlette.applications import Starlette
+from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
 from starlette.middleware.exceptions import ExceptionMiddleware
 
@@ -9,7 +10,7 @@ from arikaim.core.services import services
 from arikaim.core.redis import redis_connect
 from arikaim.core.utils import *
 from arikaim.core.db.db import *
-from arikaim.core.errors import error_handlers
+from arikaim.core.errors import error_handlers, http_exception, handle_error
 from arikaim.core.logger import logger
 
 from arikaim.core.admin.admin import AdminService
@@ -107,7 +108,9 @@ class ArikaimApp:
             middleware = middlewares, 
             exception_handlers = error_handlers
         )
-
+        self._starlette.add_exception_handler(HTTPException,http_exception)
+        self._starlette.add_exception_handler(Exception,handle_error)
+        
         #self._starlette.add_middleware(ExceptionMiddleware,handlers = error_handlers)
         
         return self.starlette
