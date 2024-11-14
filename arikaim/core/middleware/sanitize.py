@@ -1,5 +1,4 @@
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.types import Message
 import bleach
 import json
 

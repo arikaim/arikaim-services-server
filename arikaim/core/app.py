@@ -4,7 +4,7 @@ import sys
 from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
-from starlette.middleware.exceptions import ExceptionMiddleware
+
 
 from arikaim.core.services import services
 from arikaim.core.redis import redis_connect
@@ -15,6 +15,7 @@ from arikaim.core.logger import logger
 
 from arikaim.core.admin.admin import AdminService
 from arikaim.core.middleware.system import SystemMiddleware
+from arikaim.core.middleware.exception_handler import ExceptionHandlerMiddleware
 
 class ArikaimApp:
     _instance = None
@@ -24,7 +25,8 @@ class ArikaimApp:
         self._config = None
         self._middlewares = []
         self._default_middlewares = [
-            Middleware(SystemMiddleware)
+            Middleware(SystemMiddleware),
+            Middleware(ExceptionHandlerMiddleware)
         ]
     
     def __new__(cls, *args, **kwargs):
@@ -110,9 +112,7 @@ class ArikaimApp:
         )
         self._starlette.add_exception_handler(HTTPException,http_exception)
         self._starlette.add_exception_handler(Exception,handle_error)
-        
-        #self._starlette.add_middleware(ExceptionMiddleware,handlers = error_handlers)
-        
+         
         return self.starlette
 
     async def on_shutdown(self):
