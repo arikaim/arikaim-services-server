@@ -100,66 +100,49 @@ class Controller(HTTPEndpoint):
 async def get_request_data(request):
     query_params = {}
     path_params = {}
+
     if request.query_params:
         query_params = request.query_params
     if request.path_params:
         path_params = request.path_params
-
+  
     try:
-        body = await request.json()
-    except: 
-        body = {}
-   
-    data = {**query_params,**path_params,**body}
+        if request.headers['content-type'] == 'application/json':
+            body = await request.json()
+            data = {**query_params,**path_params,**body}
+            # sanitize
+            for key, vlaue in body.items():
+                if type(vlaue) == str:
+                    data[key] = html.escape(vlaue)
 
-    # sanitize
-    for key, vlaue in data.items():
-        if type(vlaue) == str:
-            data[key] = html.escape(vlaue)
-    
+        else:
+            form = await request.form()
+            data = dict(form)
+    except: 
+        return {**query_params,**path_params}
+   
     return data
+
+def decorator(func):
+    async def wrap(self, request):
+        data = await get_request_data(request)
+        if self.validate(data) == False:
+            return self.response()
+        else:
+            await func(self,request,data)
+        return self.response()
+    
+    return wrap
 
 # Decorators
 def put(func):
-    async def wrap(self, request):
-        data = get_request_data(request)
-        if self.validate(data) == False:
-            return self.response()
-        else:
-            await func(self,request,data)
-        return self.response()
-    
-    return wrap
+    return decorator(func)
 
 def post(func):
-    async def wrap(self, request):
-        data = await get_request_data(request)
-        if self.validate(data) == False:
-            return self.response()
-        else:
-            await func(self,request,data)
-        return self.response()
-    
-    return wrap
+    return decorator(func)
 
 def get(func):
-    async def wrap(self, request):
-        data = await get_request_data(request)
-        if self.validate(data) == False:
-            return self.response()
-        else:
-            await func(self,request,data)
-        return self.response()
-    
-    return wrap
+    return decorator(func)
 
 def delete(func):
-    async def wrap(self, request):
-        data = await get_request_data(request)
-        if self.validate(data) == False:
-            return self.response()
-        else:
-            await func(self,request,data)
-        return self.response()
-    
-    return wrap
+    return decorator(func)
