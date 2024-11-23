@@ -65,9 +65,7 @@ class ArikaimApp:
             return False
         return self._config
     
-    def system_init(self):
-        logger.info('Init')
-        
+    def system_init(self):   
         # include baase path 
         sys.path.insert(0,Path.base(relative = False))
         logger.info('Add base path ' + Path.base(relative = False))            

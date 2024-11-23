@@ -34,11 +34,12 @@ packages = [
     'arikaim.core.queue',
     'arikaim.core.middleware',
     'arikaim.core.db.models',
+    'arikaim.core.traits',
     'arikaim.core.traits.controller'
 ],
    
 # Project version number:
-version = '0.5.29',
+version = '0.5.30',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',
