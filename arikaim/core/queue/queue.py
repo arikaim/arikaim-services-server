@@ -1,9 +1,10 @@
 
-import os, imp, datetime
+import os, datetime
 from redis import Redis
 from rq import Queue as RqQueue
 from rq_scheduler import Scheduler
 from rq import Worker
+from arikaim.core.utils import load_source
 from arikaim.core.db.db import load_model_class
 from arikaim.core.logger import logger
 from arikaim.core.queue.job import Job
@@ -59,7 +60,7 @@ class Queue:
 
     def create_job(self, job_class_name: str, module_name: str, service_name: str):
         path = os.path.join(Path.job(service_name),module_name)      
-        module = imp.load_source(module_name,path + '.py')
+        module = load_source(module_name,path + '.py')
 
         job_class = getattr(module,job_class_name)
         if not job_class:

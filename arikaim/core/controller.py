@@ -111,9 +111,9 @@ async def get_request_data(request):
             body = await request.json()
             data = {**query_params,**path_params,**body}
             # sanitize
-            for key, vlaue in body.items():
-                if type(vlaue) == str:
-                    data[key] = html.escape(vlaue)
+            for key, val in body.items():
+                if type(val) == str:
+                    data[key] = html.escape(val)
 
         else:
             form = await request.form()

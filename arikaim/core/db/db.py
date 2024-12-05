@@ -1,5 +1,6 @@
 from arikaim.core.path import Path
-import imp,os,importlib;
+from arikaim.core.utils import load_source
+import os,importlib;
 from sqlmodel import create_engine
 
 class Db: 
@@ -52,7 +53,7 @@ def load_model_class(model_class, module_name, service_name = None):
         module = importlib.import_module('arikaim.core.db.models.' + module_name,model_class)
     else:
         path = os.path.join(Path.model(service_name),module_name)      
-        module = imp.load_source(module_name,path + '.py')
+        module = load_source(module_name,path + '.py')
 
     return getattr(module,model_class)
 

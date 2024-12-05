@@ -3,7 +3,7 @@ vendor/
 arikaim/*
 !arikaim/core/
 !arikaim/core/*/
-arikaim.egg-info
+
 __pycache__
 node_modules
 composer.lock
@@ -12,6 +12,8 @@ cli
 .htaccess
 index.php
 arikaim_service_server.egg-info
+egg-info
+arikaim.egg-info
 /build
 /dist
 !*.gitkeep

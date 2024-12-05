@@ -1,4 +1,6 @@
-import sys, os, importlib, imp
+import sys, os, importlib
+import importlib.util
+import importlib.machinery
 from string import Template
 from datetime import datetime
 from arikaim.core.path import Path
@@ -49,9 +51,17 @@ def load_module_vars(path, module_name: str):
 
     return importlib.import_module(module_name, package = module_name)
    
+def load_source(modname, filename):
+    loader = importlib.machinery.SourceFileLoader(modname, filename)
+    spec = importlib.util.spec_from_file_location(modname, filename, loader=loader)
+    module = importlib.util.module_from_spec(spec)
+   
+    loader.exec_module(module)
+    return module
+
 def load_module(name: str, path: str):
     try:
-        return imp.load_source(name,path)
+        return load_source(name,path)
     except BaseException as e:
         print(format(e))       
         return None
