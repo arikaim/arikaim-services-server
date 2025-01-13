@@ -5,7 +5,6 @@ from starlette.applications import Starlette
 from starlette.exceptions import HTTPException
 from starlette.middleware import Middleware
 
-
 from arikaim.core.services import services
 from arikaim.core.redis import redis_connect
 from arikaim.core.utils import *

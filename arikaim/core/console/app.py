@@ -10,6 +10,7 @@ from arikaim.core.console.config import config
 from arikaim.core.console.install import install
 from arikaim.core.console.packages import packages
 from arikaim.core.console.services import services_group
+from arikaim.core.console.queue import queue_group
 from arikaim.core.logger import logger
 from arikaim.core.path import Path
 
@@ -56,3 +57,4 @@ main.add_command(packages)
 main.add_command(config)
 main.add_command(install)
 main.add_command(info)
+main.add_command(queue_group)
