@@ -32,7 +32,14 @@ class Queue:
     def add_job(self, job, *args, **kwargs):
         if isinstance(job,Job) == False: 
             raise Exception('Not valid job instance')
+        
+        if job.interval:
+            return self._queue.enqueue_in(
+                job.execute, 
 
+                *args, 
+                **kwargs
+            )
         return self._queue.enqueue(job.execute, *args, **kwargs)
     
     def get_jobs_count(self):
