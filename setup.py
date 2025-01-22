@@ -76,6 +76,7 @@ install_requires=[
     'click',
     'bleach',
     'rich',
+    'textual',
     'psutil',
     'requests',
     'pydantic',            

@@ -1,7 +1,7 @@
 import click
-from rich import print
-from rich import pretty
 import sys
+import os.path
+from rich import print, pretty
 
 from arikaim.core.server import arikaim_server
 from arikaim.core.services import services
@@ -13,6 +13,7 @@ from arikaim.core.console.services import services_group
 from arikaim.core.console.queue import queue_group
 from arikaim.core.logger import logger
 from arikaim.core.path import Path
+from arikaim.core.utils import load_module
 
 @click.group(invoke_without_command = True)
 @click.pass_context
@@ -51,6 +52,23 @@ def info():
     logger.info('Base Bath ' + Path.base(False)) 
     logger.info('Python Version ' + sys.version) 
    
+@click.command(name = 'console')
+@click.argument('name', required = True)
+def console_cmd(name: str):
+    print("[blue]Console")
+    print("")
+
+    app.system_init()
+    services.scan_services()
+
+    path = os.path.join(Path.console(name),'console.py')
+    if os.path.isfile(path) == False:
+        print('[red]Console app not exist for this service')
+        print("")
+        return
+    
+    load_module('console',path)
+
 main.add_command(run)
 main.add_command(services_group)
 main.add_command(packages)
@@ -58,3 +76,4 @@ main.add_command(config)
 main.add_command(install)
 main.add_command(info)
 main.add_command(queue_group)
+main.add_command(console_cmd)
