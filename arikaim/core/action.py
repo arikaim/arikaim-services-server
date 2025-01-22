@@ -77,6 +77,9 @@ class Action:
         
         return default
 
+    def get_options(self):
+        return self._options
+
     def result(self, name: str, value: any):
         self._result[name] = value
         return self

@@ -26,6 +26,7 @@ class Property:
         self._readonly = False
         self._required = False
         self._value = None
+        self._values_list = None
         self._example_value = None
         self._default = None
 
@@ -42,6 +43,7 @@ class Property:
             'type': self._type,
             'readonly': self._readonly,
             'value': self._value,
+            'values_list': self._values_list,
             'default': self._default,
             'required': self._required,
             'title': self._title
@@ -60,6 +62,10 @@ class Property:
     
     def value(self, value):
         self._value = value
+        return self
+    
+    def values_list(self, items):
+        self._values_list = items
         return self
     
     def example_value(self, value):
