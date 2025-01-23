@@ -39,7 +39,7 @@ packages = [
 ],
    
 # Project version number:
-version = '0.5.31',
+version = '0.5.33',
 
 # List a license for the project, eg. MIT License
 license = 'MIT License',
@@ -74,6 +74,7 @@ install_requires=[
     'pymysql',
     'sqlmodel',
     'click',
+    'rq',
     'bleach',
     'rich',
     'textual',
